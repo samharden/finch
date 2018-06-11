@@ -521,11 +521,11 @@ def receive_email(request):
         print(text)
         body_without_quotes = request.POST.get('stripped-text', '')
         text_total = subject + " " + text
-        find_rel_questions_email(
-                            text_total,
-                            case_record.issue_area,
-                            case_record.county,
-                            )
+        # find_rel_questions_email(
+        #                     text_total,
+        #                     issue_area,
+        #                     case_record.county,
+        #                     )
 
         synonyms = nltk_rel_words_email(text_total)
         # determine frequency of issue areas in synonyms
