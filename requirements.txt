@@ -19,3 +19,4 @@ nltk==3.2.4
 django-tinymce==2.7.0
 mysqlclient==1.3.12
 talon==1.4.4
+gunicorn==19.8.1
