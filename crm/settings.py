@@ -12,7 +12,7 @@ SECRET_KEY = 'apple-tree-maven-host'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','localhost','finch-km.herokuapp.com', 'finch-km.com', 'demo.finch-km.com']
+ALLOWED_HOSTS = ['0.0.0.0','ec2-18-206-61-184.compute-1.amazonaws.com','localhost','finch-km.herokuapp.com', 'finch-km.com', 'demo.finch-km.com']
 
 
 # Application definition
