@@ -16,7 +16,7 @@ from knowledge_base.models import KB_Item
 import mammoth
 import nltk
 from nltk.corpus import stopwords
-from questions.nltk_process import nltk_process, nltk_rel_words, find_rel_questions, nltk_rel_words_email
+from questions.nltk_process import nltk_process, nltk_rel_words, find_rel_questions, nltk_rel_words_email, find_rel_questions_email
 import talon
 
 # CRUD Operations Start
