@@ -7,6 +7,7 @@ RUN pip install -r requirements.txt
 RUN [ "python3", "-c", "import nltk; nltk.download('all')" ]
 ADD . /finch/
 EXPOSE 80
+EXPOSE 443
 
 
 # CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
