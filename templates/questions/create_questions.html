@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="right_col" role="main">
+
+
+
+    <div class="x_panel">
+      <div class="x_title">
+        <h3>{{page_title}}</h3>
+  </div>
+
+
+  <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+          {{case_form.media}}
+              <div class="form-group"><br>
+                  {{ case_form.title }}
+                    <span>{{ case_form.title.errors }}</span>
+                    <!-- <div> -->
+                    </div>
+                      <div class="form-group">
+                        Choose Knowledge Base Item (optional):
+                    {{ case_form.related_statute }}
+                    <span>{{ case_form.related_statute.errors }}</span>
+                  </div>
+                <!-- </div> -->
+                <!-- <div class="filter_col col-md-12"> -->
+                  <div class="form-group">
+
+                    {{ case_form.rel_statute_link }}
+                    <span>{{ case_form.rel_statute_link.errors }}</span>
+                  </div>
+                <!-- </div> -->
+                <!-- <div class="filter_col col-md-12">
+                  <div class="form-group textarea">
+                    {{ case_form.issue_summary }}
+                    <span>{{ case_form.issue_summary.errors }}</span>
+                  </div>
+                </div> -->
+
+                <div>
+                  <div class="form-group">
+                    {{ case_form.issue_detail }}
+                    <span>{{ case_form.issue_detail.errors }}</span>
+                  </div>
+                </div>
+                <div>Area:
+                  <div class="form-group">
+                  {{ case_form.issue_area }}
+                    <span>{{ case_form.issue_area.errors }}</span>
+                  </div>
+                  <div class="form-group">
+                  {{ case_form.related_cite }}
+                    <span>{{ case_form.related_cite.errors }}</span>
+                  </div>
+                </div>
+                <div>File Upload:
+                  <div class="form-group">
+                    {{ case_form.related_document}}
+                    {{ case_form.related_document_name}}
+                    {{ case_form.related_document_desc}}
+                    <span>{{ case_form.related_document.errors }}</span>
+                  </div>
+                </div>
+                  <button type="submit" class="btn btn-sm btn-success btn-block" type="button">SAVE</button>
+              </div>
+            </div>
+            <br clear="all">
+          </div>
+        </div>
+
+      <br clear="all">
+      <input type="hidden" id="save_new_form" name="savenewform">
+    </div>
+    <!-- <div class="row marl buttons_row text-center">
+      <button class="btn btn-round btn-primary" type="submit">Save</button>
+    </div> -->
+    </div>
+  </form>
+  <br><br><br>
+{% endblock %}
+{% block js_block %}
+  <script src="{% static 'js/questions/create_case.js' %}"></script>
+  <script type="text/javascript">
+    $(function () {
+     var date = new Date();
+     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      $('#datepicker1').datetimepicker({
+          'format': 'YYYY-MM-DD',
+          minDate: today
+      }).attr('readonly', 'true')
+    });
+
+    $(".savenew").on('click', function(e){
+      e.preventDefault()
+      $("#save_new_form").val('true')
+      $('#submitForm').submit()
+    });
+  </script>
+{% endblock js_block %}

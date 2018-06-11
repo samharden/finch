@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<br>
+
+
+<div class="container">
+
+  <center>
+    <h3>UPLOAD FILE</h3>
+  </center>
+
+
+    <div class="overview_form_block row marl">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+
+          <div class="panel-content">
+            <div class="row marl">
+              <!-- <div class="col-md-6"> -->
+                <div class="filter_col col-md-12">
+
+
+
+        <div class="panel-content" id="datashow" style="margin-right:5%; margin-left:5%">
+
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h5>Name of case: &nbsp {{ form.name}}</h5>
+            <h5>Document type: &nbsp {{ form.file_type}}</h5>
+            <h5>Document description: &nbsp {{ form.description}}</h5>
+            <h5>{{ form.document}}</h5>
+            <center>
+            <button class="btn btn-round btn-dropdown-toggle" type="submit" >Upload</button>
+          </center><br><br>
+          </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}
+{% block js_block %}
+  <script src="{% static 'js/questions/view_case.js' %}"></script>
+  <script src="{% static 'js/questions/create_case.js' %}"></script>
+{% endblock js_block %}

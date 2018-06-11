@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load paginate %}
+{% block content %}
+
+<head>
+<link rel="stylesheet" href="http://assets.annotateit.org/annotator/v1.2.7/annotator.min.css">
+</head>
+
+
+<script src="http://assets.annotateit.org/annotator/v1.2.7/annotator-full.min.js"></script>
+<script>
+ $(function(){
+    $('#content').annotator();
+ });
+</script>
+</body>
+
+    <div class="right_col" role="main">
+      <div class="col-md-8 col-sm-6 col-xs-12" style="width:95%">
+
+
+
+      </div>
+
+      <br>
+
+      <div class="container  text-left">
+      <div class="col-md-12 col-sm-12 col-xs-12" >
+
+                                              <div class="x_panel">
+                                                <div class="x_title">
+                                                  <h2>Statute {{statute.statute_chapter}}.{{statute.statute_number}}</h2>
+                                                  <ul class="nav navbar-right panel_toolbox">
+
+                                                    <li class="dropdown">
+                                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i> Options</a>
+                                                      <ul class="dropdown-menu" role="menu" id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                                        <li><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Text</a>
+                                                        </li>
+                                                        {% if questions %}
+                                                        <li><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Discussions</a>
+                                                        </li>
+                                                        {% endif %}
+                                                        <li><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Start Discussion</a>
+                                                        </li>
+                                                      </ul>
+                                                    </li>
+
+                                                  </ul>
+                                                  <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+
+
+
+                                                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
+
+                                                    <!-- <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                                      <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Text</a>
+                                                      </li>
+                                                      {% if questions %}
+                                                      <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Discussions</a>
+                                                      </li>
+                                                      {% endif %}
+                                                      <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Start Discussion</a>
+                                                      </li>
+
+                                                    </ul> -->
+                                                    <div id="myTabContent" class="tab-content">
+                                                      <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                                        <h4>Text</h4>
+                                                        <div id="content"><p>{{statute.body|safe}}</p></div>
+
+                                                      </div>
+                                                      <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                                        <h4>Discussions</h4>
+                                                        <div class="x_content">
+
+
+                                                            {% for question in questions %}
+
+
+                                                                   <div class="x_panel">
+                                                                     <div class="x_title">
+                                                                                   <a href="/{{question.id}}/viewquestion">{{question.title|truncatechars:150}}</a>
+                                                                               <!-- </h2> -->
+                                                                    </div>
+                                                                    <div class="x_content">
+                                                                   <!-- <div class="byline"> -->
+                                                                     by <a >{{question.created_by}}</a>
+                                                                   <!-- </div> -->
+                                                                   <p class="excerpt">{{question.issue_detail|safe}}
+                                                                   </p>
+                                                                 </div>
+                                                               </div>
+                                                             <!-- </li> -->
+
+                                                               {% endfor %}
+
+                                                           <!-- </ul> -->
+
+                                                      </div>
+                                                    </div>
+
+                                                      <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                                                        <h4>Start Discussion</h4>
+                                                        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+                                                                {{form.media}}
+                                                                    <div class="form-group"><br>
+                                                                        {{ form.title }}
+                                                                          <span>{{ form.title.errors }}</span>
+                                                                          <!-- <div> -->
+                                                                          </div>
+                                                                            <div class="form-group">
+                                                                          {{ form.related_statute }}
+                                                                          <span>{{ form.related_statute.errors }}</span>
+                                                                        </div>
+                                                                      <!-- </div> -->
+                                                                      <!-- <div class="filter_col col-md-12">
+                                                                        <div class="form-group">
+
+                                                                          {{ form.rel_statute_link }}
+                                                                          <span>{{ form.rel_statute_link.errors }}</span>
+                                                                        </div>
+                                                                      </div> -->
+                                                                      <!-- <div class="filter_col col-md-12">
+                                                                        <div class="form-group textarea">
+                                                                          {{ form.issue_summary }}
+                                                                          <span>{{ form.issue_summary.errors }}</span>
+                                                                        </div>
+                                                                      </div> -->
+
+                                                                      <div>
+                                                                        <div class="form-group" style="width:500px">
+                                                                          {{ form.issue_detail }}
+                                                                          <span>{{ form.issue_detail.errors }}</span>
+                                                                        </div>
+                                                                      </div>
+                                                                      <div>Area:
+                                                                        <div class="form-group">
+                                                                        {{ form.issue_area }}
+                                                                          <span>{{ form.issue_area.errors }}</span>
+                                                                        </div>
+                                                                        <!-- <div class="form-group">
+                                                                        {{ form.related_cite }}
+                                                                          <span>{{ form.related_cite.errors }}</span>
+                                                                        </div> -->
+                                                                      </div>
+                                                                      <div>File Upload:
+                                                                        <div class="form-group">
+                                                                          {{ form.related_document}}
+                                                                          {{ form.related_document_name}}
+                                                                          {{ form.related_document_desc}}
+                                                                          <span>{{ form.related_document.errors }}</span>
+                                                                        </div>
+                                                                      </div>
+                                                                        <button type="submit" class="btn btn-sm btn-success btn-block" type="button">SAVE</button>
+                                                                    </div>
+                                                                  </div>
+                                                                  <br clear="all">
+                                                                </div>
+                                                              </div>
+
+                                                            <br clear="all">
+                                                            <input type="hidden" id="save_new_form" name="savenewform">
+                                                          </div>
+                                                          <!-- <div class="row marl buttons_row text-center">
+                                                            <button class="btn btn-round btn-primary" type="submit">Save</button>
+                                                          </div> -->
+                                                          </div>
+                                                        </form>
+                                                      </div>
+
+
+                                                    </div>
+                                                  </div>
+
+                                                </div>
+                                              </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- questions_list ends here -->
+</div>
+<!-- main_container ends here -->
+{% endblock %}
+{% block js_block %}
+  <script src="{% static 'js/questions/questions.js' %}"></script>
+  <script>
+  $(function(){
+  $(‘#content’).annotator();
+  });
+  </script>
+{% endblock js_block %}

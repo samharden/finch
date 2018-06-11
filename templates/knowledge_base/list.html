@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load paginate %}
+{% block content %}
+
+    <div class="right_col" role="main">
+      <div class="col-md-8 col-sm-6 col-xs-12" style="width:95%">
+
+
+
+      </div>
+      <center>
+
+          {% if searched == True %}
+          <h3>Search terms: {{name}} <a href="" id="filter_clear" class="btn btn-round btn-default">Clear</a></h3>
+          {% endif %}
+      </center>
+      <br>
+
+      <div class="container  text-left">
+      <div class="col-md-12 col-sm-12 col-xs-12" >
+
+
+                                  <div class="x_panel">
+                                    <h2>Statutes</h2>
+
+                                  {% for statute1 in statutes %}
+
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h4>Chapter {{statute1.0}}
+
+                                          <ul class="nav navbar-right panel_toolbox">
+                                            <li class="dropdown">
+                                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-map-marker"></i> {{statute1.1}}</a>
+                                              <ul class="dropdown-menu" role="menu">
+                                            <li><a href="?state={{statute1.1}}">Filter</a></li>
+                                          </li>
+                                          </ul>
+
+
+
+                                      </h4>
+
+                                      <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                      {% for statute in statutes_2|dictsort:"statute_number" %}
+                                      {% if statute.statute_chapter == statute1.0 %}
+                                        <div style="margin-left:8%"><a href="{{statute.statute_chapter}}/{{statute.statute_number}}/view/">Statute {{statute.statute_chapter}}.{{statute.statute_number}} - {{statute.statute_heading}}</a>
+
+
+
+                                        </div>
+                                        <br>
+                                      {% endif %}
+                                      {% endfor %}
+
+
+
+                                    </div>
+                                  </div>
+                                <!-- </div> -->
+
+
+
+
+                              {% endfor %}
+                            </div>
+
+                          <div class="x_panel">
+                              <h2>Elements</h2>
+                              {% for ele in elements %}
+                          <div class="x_panel">
+                            <div class="x_title">
+
+                                <h4><a href="{% url 'knowledge_base:view_knowledgebase_guide' ele.id %}">{{ ele.title }}</a><small></small>
+
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-map-marker"></i> {{ele.state}}</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                  <li><a href="?state={{ele.state}}">Filter</a></li>
+                                </li>
+                                </ul>
+                              </h4>
+
+                              <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                              {{ele.plain_body|truncatewords:150}}
+                                </div>
+                                <br>
+
+                          </div>
+
+                        {% endfor %}
+                        </div>
+
+                        <div class="x_panel">
+
+                            <h2>Practice Guides</h2>
+
+                            {% for ele in prac_guides %}
+                        <div class="x_panel">
+
+                          <div class="x_title">
+                            
+
+                              <h4><a href="{% url 'knowledge_base:view_knowledgebase_guide' ele.id %}">{{ ele.title }}</a><small></small>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-map-marker"></i> {{ele.state}}</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                  <li><a href="?state={{ele.state}}">Filter</a></li>
+                                </li>
+                                </ul>
+                              </h4>
+
+                            <div class="clearfix"></div>
+                          </div>
+                          <div class="x_content">
+                            {{ele.body|striptags|truncatechars:300 }}
+                              </div>
+                              <br>
+
+                        </div>
+
+                        {% endfor %}
+                        </div>
+
+                        <div class="x_panel">
+
+                            <h2>Grounds</h2>
+
+                            {% for ele in grounds %}
+                        <div class="x_panel">
+
+                          <div class="x_title">
+
+                              <h4><a href="{% url 'knowledge_base:view_knowledgebase_guide' ele.id %}">{{ ele.title }}</a><small></small>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-map-marker"></i> {{ele.state}}</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                  <li><a href="?state={{ele.state}}">Filter</a></li>
+                                </li>
+                                </ul>
+                              </h4>
+
+                            <div class="clearfix"></div>
+                          </div>
+                          <div class="x_content">
+                            {{ele.plain_body|truncatewords:150 }}
+                              </div>
+                              <br>
+
+                        </div>
+
+                        {% endfor %}
+                        </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- questions_list ends here -->
+</div>
+<!-- main_container ends here -->
+{% endblock %}
+{% block js_block %}
+  <script src="{% static 'js/questions/questions.js' %}"></script>
+{% endblock js_block %}

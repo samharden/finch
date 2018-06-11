@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load paginate %}
+{% block content %}
+
+<head>
+<link rel="stylesheet" href="http://assets.annotateit.org/annotator/v1.2.7/annotator.min.css">
+</head>
+
+
+</body>
+
+    <div class="right_col" role="main">
+      <div class="col-md-8 col-sm-6 col-xs-12" style="width:95%">
+
+
+
+      </div>
+
+      <br>
+
+      <div class="container  text-left">
+      <div class="col-md-12 col-sm-12 col-xs-12" >
+
+
+
+
+
+                                  <!-- <div class=""> -->
+                                            <!-- <div class="col-md-6 col-sm-6 col-xs-12"> -->
+                                              <div class="x_panel">
+                                                <div class="x_title">
+                                                  <h2>Add KB Item</h2>
+                                                  <ul class="nav navbar-right panel_toolbox">
+
+                                                  </ul>
+                                                  <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                  <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                                  {{form.as_p}}
+
+                                                </div>
+                                                <div class="x_content">
+                                                <button type="submit" class="btn btn-sm btn-success btn-block" type="button">SAVE</button>
+
+                                                            <br clear="all">
+                                                            <input type="hidden" id="save_new_form" name="savenewform">
+                                                          </div>
+                                                          </div>
+                                                        </form>
+                                                      </div>
+
+
+                                                    </div>
+                                                  </div>
+
+                                                </div>
+                                              </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- questions_list ends here -->
+</div>
+<!-- main_container ends here -->
+{% endblock %}
+{% block js_block %}
+  <script src="{% static 'js/questions/questions.js' %}"></script>
+  <script>
+  $(function(){
+  $(‘#content’).annotator();
+  });
+  </script>
+{% endblock js_block %}

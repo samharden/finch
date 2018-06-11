@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+  <!-- CASE VIEW STARTS -->
+  <div class="right_col" role="main">
+
+
+
+      <div class="x_panel">
+        <div class="x_title">
+
+
+              <center><h3>{{ user_record.username }}</h3>
+                <h4>Score = {{user_record.score}}
+              </center>
+            </div>
+
+                  {% if user_record.email == logged_in_user.email %}
+                  <div class="pull-right">
+                  <div class="dropdown">
+
+                      <p style="margin-top: -10px; margin-right:10px" id="dropdownMenu1" role="button" aria-haspopup="true" data-toggle="dropdown">Edit Profile
+                        <span class="fa fa-plus" id="dropdownMenu1" data-toggle="dropdown"></span></p>
+
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                        <li><a href="{% url 'common:edit' user_record.username %}" id="edit_case">EDIT</a></li>
+
+                      </ul>
+                    </div>
+                    </div>
+                {% endif %}
+            <div class="panel-content" id="datashow">
+              <div class="row marl">
+
+                <div class="col-md-12">
+                  <div class="filter_col col-md-6">
+                    <!-- <div class="form-group"> -->
+
+                      <div class="case_field" id="case_status" data-name="name">{{ user_record.email }}</div>
+                      <div class="case_field" >{{ user_record.county }}, {{user_record.state}}</div>
+                      <div class="case_field" ><a href="{{ user_record.website }}">Website</a></div>
+
+                    </div>
+
+
+                <div class="filter_col col-md-4">
+                  <!-- <div class="form-group"> -->
+
+                    <div class="case_field" id="case_status" data-name="name">Practice Areas:</div>
+                    <div class="case_field" >{{ user_record.primary_practice_area }}: {{user_record.ppa_percent}}%</div>
+                    <div class="case_field" >{{ user_record.secondary_practice_area }}: {{user_record.spa_percent}}%</div>
+                  </div>
+
+              </div>
+                <div class="col-md-12">
+                  <div class="filter_col col-md-12">
+
+                    <!-- <div class="form-group"> -->
+
+
+                    <!-- </div> -->
+
+                    <br>
+                  </div>
+
+                <div class="col-md-6">
+
+
+                  <div class="filter_col col-md-4">
+                    {% if user_record.issue_area %}
+                    <!-- <div class="form-group"> -->
+                      <label class="case_field_label" for="id_account" data-name="name">Area: <a href="">{{ user_record.issue_area }}</a></label>
+                    <!-- </div> -->
+                    {% endif %}
+                  </div>
+                  <div class="filter_col col-md-3">
+                    {% if user_record.related_statute %}
+                    <!-- <div class="form-group"> -->
+                      <label class="case_field_label" for="id_account" data-name="name">Statute: <a href="{{user_record.rel_statute_link}}">{{ user_record.related_statute }}</a></label>
+                    <!-- </div> -->
+                    {% endif %}
+                  </div>
+
+                </div>
+
+
+                <br>
+              </div>
+            </div>
+          </div>
+          </div>
+
+
+          <div class="x_panel">
+            <div class="x_title">
+          <h4>Documents:
+            {% if user_record.email == logged_in_user.email %}
+            <div class="pull-right"><a href="/upload_file"><button class="btn btn-sm btn-success">Add</button></a></div></h4>
+            {% endif %}
+
+        </div>
+
+        <div class="panel-content" style="margin-left:1%; margin-right:1%">
+          <table class="table table-borderless table-striped table-condensed" id="multiselect" >
+            <thead>
+              <tr>
+
+                <th width="20%" style="text-align:left;">Title</th>
+                <th width="20%" style="text-align:left;">Description</th>
+                <th width="10%" style="text-align:left;">Link</th>
+
+              </tr>
+            </thead>
+        {% for question in question_record %}
+
+          {% if question.created_by == user_record.username %}
+          {% if question.related_document %}
+          <tr class="case_row{{question.id}}" style="text-align:left;">
+
+            <td><a>{{question.related_document_name}}</a></td>
+            <td><a>{{question.related_document_desc}}</a></td>
+            <td><a href="/media/{{question.related_document}}"><button class="btn btn-sm btn-success">Download</button></a></td>
+          </tr>
+            {% endif %}
+          {% endif %}
+      {% endfor %}
+
+      {% for doc in uploaded_docs %}
+
+        {% if doc.created_by == user_record.email %}
+
+        <tr class="case_row{{question.id}}" style="text-align:left;">
+
+          <td><a>{{doc.name}}</a></td>
+          <td><a>{{doc.description}}</a></td>
+          <td><a href="/media/{{doc.document}}"><button class="btn btn-sm btn-success">Download</button></a></td>
+        </tr>
+
+        {% endif %}
+    {% endfor %}
+    {% for comment in comments %}
+      {% if comment.related_document %}
+      {% if user_record.id == comment.commented_by_id %}
+      <tr class="case_row{{question.id}}" style="text-align:left;">
+        <td><a>Comment: </a></td>
+        <td><a>{{comment.comment|truncatechars:40}}</a></td>
+      <td><a href="/media/{{comment.related_document}}"><button class="btn btn-sm btn-success">Download</button></a></td>
+      </tr>
+      {% endif %}
+      {% endif %}
+    {% endfor %}
+    </table>
+        </div>
+
+        </div>
+
+
+          <div class="x_panel">
+            <div class="x_title">
+          <h4>Discussions:<h4>
+
+        </div>
+        <div class="panel-content" style="margin-left:1%; margin-right:1%">
+          <table class="table table-borderless table-striped table-condensed" id="multiselect" >
+            <thead>
+              <tr>
+
+                <th width="20%" style="text-align:left;">Discussion Posted</th>
+                <th width="20%" style="text-align:left;">Area</th>
+              </tr>
+            </thead>
+              <tbody>
+
+  {% for question in question_record %}
+
+    {% if question.created_by == user_record.username %}
+    <tr class="case_row{{question.id}}" style="text-align:left;">
+
+      <td><a href="{% url 'questions:view_case' question.id %}">{{question.title}}</a></td>
+      <td><a href="">{{question.issue_area}}</a></td>
+    </tr>
+
+
+    {% endif %}
+{% endfor %}
+  </tbody>
+
+</div></div>
+</div>
+</div>
+
+
+
+</div></div>
+</div>
+</div>
+
+
+
+
+    <div class="panel-content" style="margin-left:1%; margin-right:1%">
+      <table class="table table-borderless table-striped table-condensed" id="multiselect" >
+        <thead>
+          <tr>
+
+            <th width="20%" style="text-align:left;">Comments</th>
+
+          </tr>
+          <tbody>
+
+{% for comment in comments %}
+{% if comment.commented_by_id == user_record.id %}
+
+<tr class="" style="text-align:left;">
+
+  <td><a href="{% url 'questions:view_case' comment.case_id %}">{{comment.comment|truncatechars:100}}</a></td>
+
+</tr>
+{% endif %}
+
+{% endfor %}
+</div></div>
+</div>
+
+
+{% endblock %}
+{% block js_block %}
+  <script src="{% static 'js/questions/view_case.js' %}"></script>
+  <script src="{% static 'js/questions/create_case.js' %}"></script>
+    <script>PDFObject.embed("/media/{{user_record.related_document}}", "#motion_pdf");</script>
+{% endblock js_block %}

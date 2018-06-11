@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="right_col" role="main">
+
+
+
+    <div class="x_panel">
+      <div class="x_title">
+        <h3>{{page_title}}</h3>
+  </div>
+
+
+  <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+          {{form}}
+
+          <br>
+
+                  <button type="submit" class="btn btn-sm btn-success btn-block" type="button">SAVE</button>
+
+
+      <br clear="all">
+      <input type="hidden" id="save_new_form" name="savenewform">
+
+  </form>
+  <br><br><br>
+{% endblock %}
+{% block js_block %}
+  <script src="{% static 'js/questions/create_case.js' %}"></script>
+  <script type="text/javascript">
+    $(function () {
+     var date = new Date();
+     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      $('#datepicker1').datetimepicker({
+          'format': 'YYYY-MM-DD',
+          minDate: today
+      }).attr('readonly', 'true')
+    });
+
+    $(".savenew").on('click', function(e){
+      e.preventDefault()
+      $("#save_new_form").val('true')
+      $('#submitForm').submit()
+    });
+  </script>
+{% endblock js_block %}

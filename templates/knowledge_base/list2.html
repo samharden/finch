@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load paginate %}
+{% block content %}
+
+    <div class="right_col" role="main">
+      <div class="col-md-8 col-sm-6 col-xs-12" style="width:95%">
+
+
+
+      </div>
+      <center>
+
+          {% if searched == True %}
+          <h3>Search terms: {{name}} <a href="" id="filter_clear" class="btn btn-round btn-default">Clear</a></h3>
+          {% endif %}
+      </center>
+      <br>
+
+      <div class="container  text-left">
+      <div class="col-md-12 col-sm-12 col-xs-12" >
+
+          {% for why_me in kb_areas %}
+
+          <div class="x_panel">
+              <h2>{{why_me}}</h2>
+
+          {% for not_here in kb_types %}
+
+          {% for ixnay in all_kb_items %}
+
+          {% if ixnay.kb_area.id == why_me.id %}
+
+
+          {% if ixnay.kb_type.id == not_here.id %}
+          
+          <div class="x_panel">
+            <h2>{{not_here}}</h2>
+            <div class="x_title">
+
+                <h4><a href="{% url 'knowledge_base:view_knowledgebase_guide' ixnay.id %}">{{ixnay}}</a><small></small>
+
+                <ul class="nav navbar-right panel_toolbox">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-map-marker"></i>{{ixnay.county}} {{ixnay.state}}</a>
+                    <ul class="dropdown-menu" role="menu">
+                  <li><a href="?state=">Filter</a></li>
+                </li>
+                </ul>
+              </h4>
+
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              {{ixnay.body}}
+                </div>
+                <br>
+
+          </div>
+
+          {% endif %}
+          {% endif %}
+
+          {% endfor %}
+          {% endfor %}
+
+        </div>
+
+          {% endfor %}
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- questions_list ends here -->
+</div>
+<!-- main_container ends here -->
+{% endblock %}
+{% block js_block %}
+  <script src="{% static 'js/questions/questions.js' %}"></script>
+{% endblock js_block %}

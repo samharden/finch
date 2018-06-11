@@ -1,0 +1,65 @@
+{% load static %}
+<!-- <div class="collapse navbar-toggleable-sm pull-xs-left pull-md-right" id="main-menu"> -->
+<style>
+.navbar {
+  min-height: 50px;
+}
+</style>
+
+
+
+
+        <nav class="navbar navbar-default navbar-fixed-top" style="margin-right:5px">
+
+          <a class="navbar-brand dropdown-toggle hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">LEVEL</a>
+                    <a class="navbar-brand visible-xs dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">LEVEL<span class="caret"</span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{% url 'questions:add_question' %}">Ask a Question</a></li>
+                      <li><a href="{% url 'questions:list' %}">Questions</a></li>
+                      <li><a href="/"></span>Home</a></li>
+                      <li><a href="/{{user.id}}/view">Profile</a></li>
+                      <li><a href="{% url 'logout' %}">Logout</a></li>
+
+                        <li><form id="questions_filter" method="POST" action="" >{% csrf_token %}
+                              <input type="text" class="" placeholder="search" name="name" value="{{request.POST.description}}">
+
+                                  <button class="btn-xs btn-round" style="text-center"
+                                   id="filter_click" type="submit"><span class="fa fa-search"/></button></form></li>
+
+
+
+
+                    </ul>
+                  <!-- </span> -->
+
+                  <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class='caret'>
+                  </a> -->
+
+                <!-- </div> -->
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse"  id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                      <li><a href="{% url 'questions:add_question' %}">Ask a Question</a></li>
+                      <li><a href="{% url 'questions:list' %}">Questions</a></li>
+                      <li><a href="/"></span>Home</a></li>
+                      <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+
+
+
+                <form class="pull-right" id="questions_filter" method="POST" action="" >{% csrf_token %}
+
+                        <input type="text" class="form-group" placeholder="search" name="name" value="{{request.POST.description}}">
+
+                            <button class="btn-sm btn-round" style="text-center"
+                             id="filter_click" type="submit"><span class="fa fa-search"  id="filter_click" type="submit"></span></button>
+
+
+                </form>
+
+
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>

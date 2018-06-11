@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+    <!-- Container Starts -->
+    <div class="right_col" role="main">
+        <div class="col-md-6 col-sm-8 col-xs-12" style="width:95%; margin-top:15%">
+          <div class="row">
+            <div class="filter_col col-md-4">
+            <h1>LEVEL</h1>
+          </div>
+          <div class="filter_col col-md-6">
+
+                  <form id="questions_filter" method="POST" action="" >{% csrf_token %}
+
+                        <div class="form-group">
+                          <br>
+                          <input type="text" class="form-control" placeholder="search" name="name" value="{{request.POST.description}}">
+
+                      </div>
+                    </div>
+
+                      </div>
+
+                      <input type="hidden" id="per_page_field" name="per_page">
+                      <center>
+                      <div class="filter_col text-center">
+                        <div class="form-group">
+                          <button class="btn btn-round btn-dropdown-toggle" id="filter_click" type="submit">Search</button>
+                          <a href="/" id="filter_clear" class="btn btn-round btn-default">Clear</a>
+                        </div>
+                      </center>
+                      </div>
+                    </div>
+                  </form>
+
+                <!-- </div>
+
+              </div>
+            </div>
+          </div> -->
+        <!-- </div> -->
+      </div>
+    <!-- </div> -->
+{% if show %}
+  <section class="split section" style="margin-bottom:-300px">
+  <!-- Container Starts -->
+
+  <div class="panel-content" style="margin-left:10%; margin-right:10%;">
+    {% if results_num == 1 %}
+    <h1>{{results_num}} Thread</h1>
+    {% else %}
+    <h1>{{results_num}} Threads</h1>
+    {% endif %}
+    <table class="table table-bordered table-striped table-condensed" id="multiselect" >
+
+      <tbody>
+
+        <!-- {% for obj in questions %}
+
+            <div class="col-sm-6 col-xs-12">
+              <h3><a href="/questions/{{obj.id}}/view">{{ obj.title }}</a></h3>
+              <p>{{obj.issue_summary}}.</p>
+              {%  for comment in comments %}
+              {% if obj.id == comment.case_id %}
+              <p>{{comment}}</p>
+              {% endif %}
+              {% endfor %}
+            </div>
+
+        {% endfor %} -->
+
+      </tbody>
+    </table>
+</div>
+    {% endif %}
+    <!-- <section class="split section" > -->
+      <!-- Container Starts -->
+
+            {% endblock %}
+            {% block js_block %}
+              <script src="{% static 'js/questions/view_case.js' %}"></script>
+              <script src="{% static 'js/questions/create_case.js' %}"></script>
+            {% endblock js_block %}

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load paginate %}
+{% block content %}
+
+    <div class="right_col" role="main">
+      <div class="col-md-8 col-sm-6 col-xs-12" style="width:95%">
+
+
+
+      </div>
+      <center>
+          {% if area_filter %}
+          <h3>{{header}} <a href="/" id="filter_clear" class="btn btn-round btn-default">Clear</a></h3></h3>
+          {% endif %}
+          {% if searched == True %}
+          <h3>Search terms: {{name}} <a href="" id="filter_clear" class="btn btn-round btn-default">Clear</a></h3>
+          {% endif %}
+      </center>
+      <br>
+
+  <div class="container  text-left">
+  <div class="col-md-12 col-sm-12 col-xs-12" >
+
+                            <form id="questions_filter" method="POST" action="" >{% csrf_token %}
+                            <!-- <div class="col-sm-12"> -->
+
+                              <div class="input-group">
+                                <input type="text" class="form-control" name="name" value="{{request.POST.description}}">
+                                <span class="input-group-btn">
+                                                  <button style="min-height:100%" type="submit" id="filter_click" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                              </span>
+                              </div>
+
+                              </form>
+
+
+        {% for case in questions %}
+
+        {% if case.name == 'No Associated Case' %}
+        {% else %}
+
+        <div class="x_panel">
+          <div class="x_title">
+            <h4><a href="{% url 'questions:view_case' case.id %}">{{ case.title }}</a><small></small>
+            <ul class="nav navbar-right panel_toolbox">
+
+              <li><a href="?score_up={{ case.id }}"><i class="fa fa-thumbs-up"></i></a></li>
+              <li>{{case.score}}</li>
+              <li><a href="?score_down={{ case.id }}"><i class="fa fa-thumbs-down" ></i></a></li>
+              {% if case.related_document %}
+              <li><i class="fa fa-file"></i></li>
+              {% endif %}
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-map-marker"></i></a>
+                <ul class="dropdown-menu" role="menu">
+                  {% for user in users %}
+                  {% if case.created_by == user.username %}
+                  <li style="background:#ededed"> &nbsp &nbsp Jurisdiction:
+                  </li>
+                  <li><a href="?county={{user.county}}">{{user.county}}</a>
+                  </li>
+                  <li><a href="?state={{ user.state }}">{{user.state}}</a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                </ul>
+              </li>
+              <li> </li>
+              <!-- <li><a class="close-link"><i class="fa fa-close">Hide</i></a> -->
+              </li>
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <h4><a href="{% url 'questions:view_case' case.id %}">{{ case.issue_detail|truncatechars:200|safe }}</a></h4>
+            <p>Practice Area:
+              <a href="?area={{ case.issue_area.id }}">
+                {{ case.issue_area }}</a>
+            </p>
+            <p>Started by:
+              {% for user in users %}
+              {% if case.created_by == user.username %}
+                <a href="/user/{{user.username}}/view">{{ case.created_by }}</a>
+                {% endif %}
+                {% endfor %}
+
+
+            </p>
+          </div>
+        </div>
+
+
+        {% endif %}
+        {% endfor %}
+
+
+
+
+      <!-- <div class="panel-content"> -->
+
+          {% ifequal questions|length 0 %}
+            <h4 class="text-center">No Questions Found</h4>
+          {% endifequal %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- questions_list ends here -->
+</div>
+<!-- main_container ends here -->
+{% endblock %}
+{% block js_block %}
+  <script src="{% static 'js/questions/questions.js' %}"></script>
+{% endblock js_block %}

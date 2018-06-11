@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Custom styling plus plugins -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <!-- <link href="css/main.css" rel="stylesheet"> -->
+</head>
+
+<!-- Container Starts -->
+<div class="container">
+    <div class="col-md-8 col-sm-6 col-xs-12" style="width:95%">
+      <!-- <div class="content-inner"> -->
+        <h1><img src="/static/images/blackfinch.png" style="width:36px"> Finch KM</h1>
+        <p class="lead"></p>
+        <div class="details-list">
+          <div class="row">
+            <div class="col-sm-6 col-xs-12">
+              <h2>Together we are mighty</h2>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>
+<!-- </div> -->
+
+<section class="split section">
+<!-- Container Starts -->
+<div class="container">
+  <div class="col-md-8 col-sm-6 col-xs-12" style="width:95%">
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sign up</button>
+      </form>
+
+
+    </div>
+  </div>
+</section>
+
+
+<!--<script src="js/jquery.min.js"></script>-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+</body>
+</html>

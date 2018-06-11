@@ -1,0 +1,301 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+  <!-- CASE VIEW STARTS -->
+
+      <div class="right_col" role="main">
+
+
+
+          <div class="x_panel">
+            <div class="x_title">
+
+              <h4>{{ case_record.title }}
+
+
+
+                <div class="pull-right" style="margin-right:10px">
+                  <a href="?score_up={{ case_record.id }}"><i class="fa fa-thumbs-up"></i></a>
+              &nbsp{{case_record.score}} &nbsp
+              <a href="?score_down={{ case_record.id }}"><i class="fa fa-thumbs-down" ></i></a></div></h4>
+            </div>
+
+
+                  {% if case_record.created_by == logged_in_user.username %}
+                  <div class="pull-right" style="margin-right:10px">
+                  <div class="dropdown">
+
+
+                        <span class="fa fa-edit" id="dropdownMenu1" data-toggle="dropdown"></span>
+
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                        <li><a href="{% url 'questions:edit_question' case_record.id %}" id="edit_case">EDIT</a></li>
+                        <li class="delete_case" ><a href="{% url 'questions:remove_case' case_record.id %}" id="remove_case">REMOVE</a></li>
+                      </ul>
+                    </div>
+                    </div>
+                {% endif %}
+            <div class="panel-content" id="datashow">
+              <div class="row marl">
+
+
+              </div>
+              <div class="row marl">
+
+                <div class="col-md-12">
+                  <div class="filter_col col-md-8 col-sm-12">
+                    <!-- <div class="form-group"> -->
+
+                      <div class="case_field" id="case_status" data-name="name">{{ case_record.issue_detail|safe|urlizetrunc:20 }}</div>
+                    </div>
+                    <div class="filter_col col-md-4">
+                      <!-- <div class="form-group"> -->
+                      {% if case_record.rel_statute_link_id %}
+                        <label class="case_field_label" for="id_status" data-name="name">Related KB Item</label>
+                        <div class="case_field" id="case_status" data-name="name">
+                          {% for item in KB_Items_2 %}
+                          {% if case_record.rel_statute_link_id == item.id %}
+                          <a href="{% url 'knowledge_base:view_knowledgebase_guide' case_record.rel_statute_link_id %}">{{ item }}</a>
+                          {% endif %}
+                          {% endfor %}
+
+                          </div>
+                          {% if case_record.rel_statute_link.kb_type == 'element' %}
+                          <a href="{% url 'knowledge_base:view_knowledgebase_guide' case_record.rel_statute_link.id  %}">{{ case_record.rel_statute_link }}</a></div>
+                          {% endif %}
+                        {% endif %}
+                        <label class="case_field_label" for="id_status" data-name="name">Area</label>
+                        <div class="case_field" id="case_status" data-name="name">{{ case_record.issue_area }}</div>
+                        <label class="case_field_label" for="id_status" data-name="name">Author:</label>
+                        {% for user in users %}
+                        {% if case_record.created_by == user.username %}
+                        <div class="case_field" id="case_status" data-name="name"><a href="/user/{{user.username}}/view">{{ case_record.created_by }}</a></div>
+                        {% endif %}
+                        {% endfor %}
+
+
+                </div>
+                {% if case_record.related_cite %}
+                      <label class="case_field_label" for="id_status" data-name="name">Case Cite Found:</label>
+                      <a href="{{case_record.related_cite_link}}"><button>{{ case_record.related_cite }}</button></a>
+
+                    <!-- <iframe class="col-md-12" src="{{case_record.related_cite_link}}"></iframe> -->
+                </div>
+                {% endif %}
+              </div>
+              <br>
+
+
+          </div>
+          </div>
+
+          {% if case_record.related_document %}
+          <div class="x_panel">
+            <div class="x_title">
+                RELATED DOCUMENTS:
+                  <a href="/media/{{case_record.related_document}}">
+                    <button><i class="fa fa-download"></i>
+                      {% if case_record.related_document_name %}
+                      {{case_record.related_document_name}}
+                      {% else %}
+                      Download
+                      {% endif %}
+                    </button></a>
+            </div>
+            {% if pdf_odj %}
+            <div  style="margin-left:1%; margin-right:1%; height:500px" id="motion_pdf">
+              <div>
+
+              </div>
+              </div>
+              {% endif %}
+
+            {% if case_record.related_doc_body %}
+            {{case_record.related_doc_body|safe}}
+            {% endif %}
+            </div>
+          {% endif %}
+
+
+            <div class="x_panel">
+              <div class="x_title">
+                Comment
+              </div>
+
+              <form id="comment_form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+              <!-- <div class="col-md-6 col-xs-12"> -->
+
+
+                <div class="compose-body">
+                  <div id="alerts"></div>
+
+                  <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor">
+                    <!-- <div class="btn-group">
+                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                      </ul>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a data-edit="fontSize 5">
+                            <p style="font-size:17px">Huge</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a data-edit="fontSize 3">
+                            <p style="font-size:14px">Normal</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a data-edit="fontSize 1">
+                            <p style="font-size:11px">Small</p>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                      <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                      <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                      <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                      <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+                      <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                      <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                      <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                      <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                      <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+                      <div class="dropdown-menu input-append">
+                        <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
+                        <button class="btn" type="button">Add</button>
+                      </div>
+                      <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+                    </div> -->
+
+                    <div class="btn-group">
+                      <!-- <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="fa fa-picture-o"></i></a> -->
+                      <!-- <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" /> -->
+                      <input name="file_upload" type="file">
+                    </div>
+<!--
+                    <div class="btn-group">
+                      <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                      <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                    </div> -->
+                  </div>
+
+                  <!-- <input id="id_comments" name="comment" class="editor-wrapper"/> -->
+                  <textarea contenteditable="true" class="editor-wrapper" id="id_comments" name="comment" placeholder="Submit Your Comments Here">
+
+
+                  </textarea>
+                  <span><i id="CommentError" style="display:none; color:red"></i></span>
+                  <input type="hidden" value="{{case_record.id}}" name="caseid">
+                </div>
+
+                <div class="compose-footer">
+                  <!-- <button id="comment_submit" type="submit" class="btn btn-sm btn-success" type="button">Send</button> -->
+                  <button id="comment_submit" type="submit" class="btn btn-sm btn-success btn-block" type="button">ANSWER</button>
+                </div>
+              <!-- </div> -->
+              </form>
+              </div>
+              <div class="x_panel">
+                <div class="x_title">
+                  {{comments.count}} Comments
+                </div>
+              <!-- </div> -->
+                {% for comment in comments %}
+                <div class="x_panel">
+
+                  <p class="message">{{ comment.comment|urlizetrunc:30|safe }} </p>
+                  {% if comment.related_document %}
+                  <p><a href="/media/{{comment.related_document}}">
+                    <button><i class="fa fa-download"></i>
+
+                    Download
+
+                  </button>
+                  </a></p>
+                  {% endif %}
+                  <p><span><a href="/user/{{comment.commented_by}}/view">{{ comment.commented_by }}</a></span>
+
+
+                  <span class="time pull-right right-container">{{ comment.commented_on }}</span></p>
+                  <a href="?comment_score_up={{ comment.id }}"><span class="fa fa-thumbs-up"></span></a>
+                  {{comment.score}}
+                  <a href="?comment_score_down={{ comment.id }}"><span class="fa fa-thumbs-down" ></span></a>
+                  <br>
+
+
+
+                  {% if comments_2_comments %}
+
+
+                  {% for comment_2 in comments_2_comments %}
+                  {% if comment_2.orig_comment_id == comment.id %}
+
+                    <div class="x_panel pull-right" style="max-width:85%; background-color:#F7F7F7">
+                  <p class="message">{{comment_2.comment|urlizetrunc:30}}</p>
+                  {% for user in users %}
+                  {% if comment_2.commented_by_id == user.id %}
+                    <span class="pull-right"><a href="/user/{{user.username}}/view">{{ user.username }}</a></span>
+                    <br>
+                    <span class="pull-right">{{ comment_2.commented_on }}</span>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+
+
+
+                    {% if case_record.created_by == logged_in_user.username %}
+
+            <form id="comment_2_form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                  <div class="compose-body x_panel pull-right" style="max-width:85%; background-color:#F7F7F7">
+                    <div id="alerts"></div>
+                    <textarea contenteditable="true" class="editor-wrapper" id="id_comments" name="comment" placeholder="Reply to {{ comment.commented_by }}'s Answer">
+                    </textarea>
+                    <span><i id="CommentError" style="display:none; color:red"></i></span>
+                    <input type="hidden" value="{{comment.id}}" name="commentid"><input type="hidden" value="{{case_record.id}}" name="case_id_id">
+                  <!-- </div>
+                  <div class="compose-footer"> -->
+                    <button id="comment_submit" type="submit" class="btn btn-sm btn-success btn-block" type="button">Reply</button>
+                  </div>
+                </form>
+                {% endif %}
+                </div>
+
+                {% endfor %}
+              </div>
+
+          <script src="{% static 'js/questions/view_case.js' %}"></script>
+          <script src="{% static 'js/questions/create_case.js' %}"></script>
+            <script>PDFObject.embed("/media/{{case_record.related_document}}", "#motion_pdf");</script>
+            <script>PDFObject.embed("/media/{{comment.related_document}}", "#comment_pdf");</script>
+
+
+
+{% endblock %}
+{% block js_block %}
+
+{% endblock js_block %}
