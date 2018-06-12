@@ -92,9 +92,7 @@ email_body = """
         <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
           <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
             <h2 style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px; text-align:center">
-              <img src="http://aws.finch-km.com/static/images/greyfinch.png" style="width:26px">
-             Thank you for posting your
-             discussion to Finch. </h2>
+              <img src="http://aws.finch-km.com/static/images/greyfinch.png" style="width:26px"><br>Finch-KM</h2>
 
               <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
               <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
