@@ -55,7 +55,7 @@ def return_email_info(sender, recipient, subject, new_id):
 
                     "subject": subject,
 
-                    "html": email_body % (new_id)
+                    "html": email_body % ('http://aws.finch-km.com/'+'new_id'+'/viewquestion/'),
 
                 }
                 )
