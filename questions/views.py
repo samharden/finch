@@ -443,7 +443,7 @@ def add_comment(request):
                 print("ID = ", case_comment.case.id)
                 return_email_info_comment(
                                             questioner_email,
-                                            'alerts@mg.finch-km.com',
+                                            'comment-alert-'+str(case_comment.case.id)+'@mg.finch-km.com',
                                             'New Comment',
                                             case_comment.commented_by,
                                             case_comment.comment,
@@ -532,12 +532,12 @@ def upload_file(request):
 def receive_email(request):
 
     # test_receive_email(b_p)
-    sender = 'sam@lancorp.co'
-    recipient = 'appeals@mg.finch-km.com'
-    subject = 'Test this thang fool'
-    to_save_id = 53
+    # sender = 'sam@lancorp.co'
+    # recipient = 'appeals@mg.finch-km.com'
+    # subject = 'Test this thang fool'
+    # to_save_id = 53
     # return_email_info(sender, recipient, subject)
-    return_email_info(sender, recipient, subject, to_save_id)
+    # return_email_info(sender, recipient, subject, to_save_id)
 
     if request.method == 'POST':
         talon.init()

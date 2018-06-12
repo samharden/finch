@@ -29,7 +29,7 @@ def test_receive_email(body_plain):
             print("Matched ", what)
     print("Synonyms = ", synonyms)
 
-
+import re
 def determine_area(recipient):
     if recipient == 'experts@mg.finch-km.com':
         issue_area_id_num = 5
@@ -42,6 +42,32 @@ def determine_area(recipient):
     elif recipient == 'appeals@mg.finch-km.com':
         issue_area_id_num = 1
     else:
+        if comment-alert in recipient:
+            case_id = re.findall('(\d+)', recipient)
+            talon.init()
+            from talon import signature
+            sender    = request.POST.get('sender')
+            # subject   = request.POST.get('subject', '')
+            body_plain = request.POST.get('body-plain', '')
+            text, signature = signature.extract(body_plain, sender=sender)
+            #  body_without_quotes = request.POST.get('stripped-text', '')
+            sender_name = get_object_or_404(
+            User.objects.prefetch_related(), email=sender)
+            raw_sender_name = sender_name.username
+            synonyms = nltk_rel_words_email(subject + " " + text)
+            # print("Synonyms = ", synonyms)
+
+            to_save = Comment(
+                            case = case_id,
+                            comment = text,
+                            commented_by = sender_name,
+
+                            )
+            to_save.save()
+
+
+
+
         issue_area_id_num = 6
     return issue_area_id_num
 
