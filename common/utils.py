@@ -1,5 +1,33 @@
 from django.utils.translation import ugettext_lazy as _
 
+def test_receive_email(body_plain):
+    print("Test!")
+    talon.init()
+    from talon import signature
+    sender    = 'sam@lancorp.co'
+    subject   = "Motion to Suppress Evidence"
+
+    text, signature = signature.extract(body_plain, sender=sender)
+    print(text)
+    body_without_quotes = request.POST.get('stripped-text', '')
+    text_total = subject + " " + text
+    # find_rel_questions_email(
+    #                     text_total,
+    #                     issue_area,
+    #                     case_record.county,
+    #                     )
+
+    synonyms = nltk_rel_words_email(text_total)
+    # determine frequency of issue areas in synonyms
+    areas_list = Practicearea.objects.all()
+    for what in areas_list:
+        print(what)
+        if str(what).lower() in synonyms:
+            print("Matched ", what)
+    print("Synonyms = ", synonyms)
+
+
+
 body_plain = """
                 Does anyone have a motion to suppress evidence for a
                 DUI breathalyzer exam performed without knowing consent?
@@ -11,7 +39,7 @@ body_plain = """
                 sam@lancorp.co
                 lancorp.co"""
 
-                
+
 INDCHOICES = (
     ('CRIMINAL', 'CRIMINAL'),
     ('CIVIL NEGLIGENCE', 'CIVIL NEGLIGENCE'),

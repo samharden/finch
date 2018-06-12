@@ -6,6 +6,7 @@ from questions.models import Case, UploadFile, RelatedQuestions
 from questions.forms import CaseForm, CaseCommentForm, DocumentForm, CommentCommentForm
 from common.models import User, Comment, Comment_2_Comment, Practicearea
 from common.utils import PRIORITY_CHOICE, STATUS_CHOICE, INDCHOICES, body_plain as b_p
+from common.utils import test_receive_email
 from itertools import chain
 from questions.cite_finder import cite_finder
 from django.db.models import F
@@ -510,43 +511,33 @@ def upload_file(request):
 
 @csrf_exempt
 def receive_email(request):
-    def test_receive_email(body_plain):
-        print("Test!")
-        talon.init()
-        from talon import signature
-        sender    = 'sam@lancorp.co'
-        subject   = "Motion to Suppress Evidence"
 
-        text, signature = signature.extract(body_plain, sender=sender)
-        print(text)
-        body_without_quotes = request.POST.get('stripped-text', '')
-        text_total = subject + " " + text
-        # find_rel_questions_email(
-        #                     text_total,
-        #                     issue_area,
-        #                     case_record.county,
-        #                     )
-
-        synonyms = nltk_rel_words_email(text_total)
-        # determine frequency of issue areas in synonyms
-        areas_list = Practicearea.objects.all()
-        for what in areas_list:
-            print(what)
-            if str(what).lower() in synonyms:
-                print("Matched ", what)
-        print("Synonyms = ", synonyms)
-
-    test_receive_email(b_p)
+    # test_receive_email(b_p)
 
     if request.method == 'POST':
         talon.init()
         from talon import signature
         sender    = request.POST.get('sender')
         recipient = request.POST.get('recipient')
+
         ## Idea - recipient address determines category
         ##        i.e. 'criminal@mg.finch-km.com'
-        if recipient == 'demo@mg.finch-km.com':
-            issue_area_id_num = 1
+        def determine_area(recipient):
+            if recipient == 'experts@mg.finch-km.com':
+                issue_area_id_num = 5
+            elif recipient == 'judges@mg.finch-km.com':
+                issue_area_id_num = 4
+            elif recipient == 'motions@mg.finch-km.com':
+                issue_area_id_num = 3
+            elif recipient == 'orders@mg.finch-km.com':
+                issue_area_id_num = 2
+            elif recipient == 'appeals@mg.finch-km.com':
+                issue_area_id_num = 1
+            else:
+                issue_area_id_num = 6
+            return issue_area_id_num
+
+
         subject   = request.POST.get('subject', '')
         body_plain = request.POST.get('body-plain', '')
         text, signature = signature.extract(body_plain, sender=sender)
@@ -567,7 +558,7 @@ def receive_email(request):
                         title = subject,
                         issue_detail = text,
                         created_by = str(raw_sender_name),
-                        issue_area_id = 1,
+                        issue_area_id = determine_area(recipient),
                         )
         to_save.save()
 
