@@ -6,7 +6,7 @@ ADD requirements.txt /finch/
 RUN pip install -r requirements.txt
 RUN [ "python3", "-c", "import nltk; nltk.download('all')" ]
 ADD . /finch/
-EXPOSE 80
+# EXPOSE 80
 EXPOSE 443
 
 
