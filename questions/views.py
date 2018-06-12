@@ -544,7 +544,7 @@ def receive_email(request):
         to_save.save()
         print(to_save.id)
 
-        return_email_info(sender, recipient, subject)
+        return_email_info(sender, recipient, subject, to_save.id)
 
         find_rel_questions_email(
                             synonyms,

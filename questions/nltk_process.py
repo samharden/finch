@@ -174,7 +174,7 @@ def find_rel_questions_email(synonyms, area, jurisdiction, case_id):
     for q_list in rel_q_list_raw:
         for x in q_list:
             # Need to remove repeats
-            if int(x) != int(case_id.id) and x not in rel_q_list_final:
+            if int(x) != int(case_id) and x not in rel_q_list_final:
                 rel_q_list_final.append(x)
     print("RELATED LIST =", rel_q_list_final)
     return rel_q_list_final

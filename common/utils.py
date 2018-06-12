@@ -45,7 +45,7 @@ def determine_area(recipient):
     return issue_area_id_num
 
 
-def return_email_info(sender, recipient, subject):
+def return_email_info(sender, recipient, subject, new_id):
     return requests.post(
         "https://api.mailgun.net/v3/mg.finch-km.com/messages",
         auth=("api", "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"),
@@ -55,7 +55,7 @@ def return_email_info(sender, recipient, subject):
 
                     "subject": subject,
 
-                    "html": email_body
+                    "html": email_body % (new_id)
 
                 }
                 )

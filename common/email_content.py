@@ -110,9 +110,10 @@ email_body = """
 
 
 
-
-                          <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
-                            When someone responds, we'll alert you
+                        <a href="http://aws.finch-km.com/%s/viewquestion/" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">
+                          View your post!</a> </td><br></br>
+                          <p>
+                            When someone responds to your post, we'll alert you
                                 via email.</p>
 
                         </td>
@@ -146,7 +147,7 @@ email_body = """
     <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;">
 
       <a href="" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">
-        A Link!</a> </td><br></br>
+        View your post!</a> </td><br></br>
   </tr>
 </tbody>
 
