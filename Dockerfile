@@ -11,4 +11,4 @@ EXPOSE 443
 
 
 # CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
-CMD ["gunicorn", "-b",  "0.0.0.0:8000", "crm.wsgi"]
+CMD ["gunicorn", "-b",  "0.0.0.0:443", "crm.wsgi"]
