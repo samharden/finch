@@ -65,10 +65,8 @@ def determine_area(recipient):
                             )
             to_save.save()
 
-
-
-
-        issue_area_id_num = 6
+        else:
+            issue_area_id_num = 6
     return issue_area_id_num
 
 
