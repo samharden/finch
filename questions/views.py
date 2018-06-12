@@ -6,7 +6,7 @@ from questions.models import Case, UploadFile, RelatedQuestions
 from questions.forms import CaseForm, CaseCommentForm, DocumentForm, CommentCommentForm
 from common.models import User, Comment, Comment_2_Comment, Practicearea
 from common.utils import PRIORITY_CHOICE, STATUS_CHOICE, INDCHOICES, body_plain as b_p
-from common.utils import test_receive_email
+from common.utils import test_receive_email, determine_area, return_email_info
 from itertools import chain
 from questions.cite_finder import cite_finder
 from django.db.models import F
@@ -513,31 +513,16 @@ def upload_file(request):
 def receive_email(request):
 
     # test_receive_email(b_p)
+    sender = 'sam@lancorp.co'
+    recipient = 'appeals@mg.finch-km.com'
+    subject = 'Test this thang fool'
+    return_email_info(sender, recipient, subject)
 
     if request.method == 'POST':
         talon.init()
         from talon import signature
         sender    = request.POST.get('sender')
         recipient = request.POST.get('recipient')
-
-        ## Idea - recipient address determines category
-        ##        i.e. 'criminal@mg.finch-km.com'
-        def determine_area(recipient):
-            if recipient == 'experts@mg.finch-km.com':
-                issue_area_id_num = 5
-            elif recipient == 'judges@mg.finch-km.com':
-                issue_area_id_num = 4
-            elif recipient == 'motions@mg.finch-km.com':
-                issue_area_id_num = 3
-            elif recipient == 'orders@mg.finch-km.com':
-                issue_area_id_num = 2
-            elif recipient == 'appeals@mg.finch-km.com':
-                issue_area_id_num = 1
-            else:
-                issue_area_id_num = 6
-            return issue_area_id_num
-
-
         subject   = request.POST.get('subject', '')
         body_plain = request.POST.get('body-plain', '')
         text, signature = signature.extract(body_plain, sender=sender)
@@ -546,11 +531,21 @@ def receive_email(request):
         User.objects.prefetch_related(), email=sender)
         raw_sender_name = sender_name.username
         synonyms = nltk_rel_words_email(subject + " " + text)
-        # determine frequency of issue areas in synonyms
-
         print("Synonyms = ", synonyms)
 
-        #need to strip out signature line
+        # def return_email_info(sender, recipient, subject):
+        #     return requests.post(
+        #         "https://api.mailgun.net/v3/mg.finch-km.com/messages",
+        #         auth=("api", "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"),
+        #         data={
+        #                     "from": recipient,
+        #                     "to": sender,
+        #
+        #                     "subject": subject,
+        #                     "text": "Testing some Mailgun awesomness!",
+        #                     "html": "<html>HTML version of the body</html>"
+        #                 }
+        #                 )
 
         to_save = Case(
                         state = sender_name.state,
@@ -561,12 +556,15 @@ def receive_email(request):
                         issue_area_id = determine_area(recipient),
                         )
         to_save.save()
+        print(to_save.id)
 
-        find_rel_questions_email(
-                            text_to_send,
-                            case_record.issue_area,
-                            case_record.county,
-                            )
+        return_email_info(sender, recipient, subject)
+
+        # find_rel_questions_email(
+        #                     text_to_send,
+        #                     case_record.issue_area,
+        #                     case_record.county,
+        #                     )
 
 
         print("++++++++++++++++++++++++++++++++")

@@ -1,4 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
+import requests
+from common.email_content import email_body
 
 def test_receive_email(body_plain):
     print("Test!")
@@ -26,6 +28,37 @@ def test_receive_email(body_plain):
             print("Matched ", what)
     print("Synonyms = ", synonyms)
 
+
+def determine_area(recipient):
+    if recipient == 'experts@mg.finch-km.com':
+        issue_area_id_num = 5
+    elif recipient == 'judges@mg.finch-km.com':
+        issue_area_id_num = 4
+    elif recipient == 'motions@mg.finch-km.com':
+        issue_area_id_num = 3
+    elif recipient == 'orders@mg.finch-km.com':
+        issue_area_id_num = 2
+    elif recipient == 'appeals@mg.finch-km.com':
+        issue_area_id_num = 1
+    else:
+        issue_area_id_num = 6
+    return issue_area_id_num
+
+
+def return_email_info(sender, recipient, subject):
+    return requests.post(
+        "https://api.mailgun.net/v3/mg.finch-km.com/messages",
+        auth=("api", "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"),
+        data={
+                    "from": recipient,
+                    "to": sender,
+
+                    "subject": subject,
+
+                    "html": email_body
+
+                }
+                )
 
 
 body_plain = """
