@@ -153,11 +153,11 @@ def find_rel_questions(synonyms, area, jurisdiction, case_id):
 
     rel_q.save()
 
-def find_rel_questions_email(synonyms, area, jurisdiction):
+def find_rel_questions_email(synonyms, area, jurisdiction, case_id):
     ## Find similar questions based on word and word synonymsfrequency
-    rel_q = RelatedQuestions(question_id=case_id)
-    rel_q.question_id = case_id
-    rel_q.save()
+    # rel_q = RelatedQuestions(question_id=case_id)
+    # rel_q.question_id = case_id
+    # rel_q.save()
     rel_q_list_raw = []
     for add_syn in synonyms:
         to_add_syn = [e.id for e in Case.objects.filter(
@@ -176,20 +176,21 @@ def find_rel_questions_email(synonyms, area, jurisdiction):
             # Need to remove repeats
             if int(x) != int(case_id.id) and x not in rel_q_list_final:
                 rel_q_list_final.append(x)
-    print("NEW LIST =", rel_q_list_final)
-    pre_rel_case = RelatedQuestions.objects.filter(question_id=case_id)
-    pre_exist_list = []
-    for help_me in pre_rel_case:
-        for z in help_me.related_questions.all():
-            print("Pre-Existing ID = ", z.id)
-            pre_exist_list.append(z.id)
-    print(pre_exist_list)
-    for z in rel_q_list_final:
-        print(z)
-        add_rel_case = get_object_or_404(
-            Case.objects.prefetch_related(), id=z)
-        if z not in pre_exist_list:
-            print("I'd add that")
-            rel_q.related_questions.add(add_rel_case)
-
-    rel_q.save()
+    print("RELATED LIST =", rel_q_list_final)
+    return rel_q_list_final
+    # pre_rel_case = RelatedQuestions.objects.filter(question_id=case_id)
+    # pre_exist_list = []
+    # for help_me in pre_rel_case:
+    #     for z in help_me.related_questions.all():
+    #         print("Pre-Existing ID = ", z.id)
+    #         pre_exist_list.append(z.id)
+    # print(pre_exist_list)
+    # for z in rel_q_list_final:
+    #     print(z)
+    #     add_rel_case = get_object_or_404(
+    #         Case.objects.prefetch_related(), id=z)
+    #     if z not in pre_exist_list:
+    #         print("I'd add that")
+    #         rel_q.related_questions.add(add_rel_case)
+    #
+    # rel_q.save()

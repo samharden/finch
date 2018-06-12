@@ -516,7 +516,7 @@ def receive_email(request):
     sender = 'sam@lancorp.co'
     recipient = 'appeals@mg.finch-km.com'
     subject = 'Test this thang fool'
-    return_email_info(sender, recipient, subject)
+    # return_email_info(sender, recipient, subject)
 
     if request.method == 'POST':
         talon.init()
@@ -533,20 +533,6 @@ def receive_email(request):
         synonyms = nltk_rel_words_email(subject + " " + text)
         print("Synonyms = ", synonyms)
 
-        # def return_email_info(sender, recipient, subject):
-        #     return requests.post(
-        #         "https://api.mailgun.net/v3/mg.finch-km.com/messages",
-        #         auth=("api", "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"),
-        #         data={
-        #                     "from": recipient,
-        #                     "to": sender,
-        #
-        #                     "subject": subject,
-        #                     "text": "Testing some Mailgun awesomness!",
-        #                     "html": "<html>HTML version of the body</html>"
-        #                 }
-        #                 )
-
         to_save = Case(
                         state = sender_name.state,
                         county = sender_name.county,
@@ -560,12 +546,11 @@ def receive_email(request):
 
         return_email_info(sender, recipient, subject)
 
-        # find_rel_questions_email(
-        #                     text_to_send,
-        #                     case_record.issue_area,
-        #                     case_record.county,
-        #                     )
-
+        find_rel_questions_email(
+                            synonyms,
+                            determine_area(recipient),
+                            sender_name.county,
+                            to_save.id)
 
         print("++++++++++++++++++++++++++++++++")
         print(raw_sender_name)
