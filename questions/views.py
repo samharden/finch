@@ -6,7 +6,7 @@ from questions.models import Case, UploadFile, RelatedQuestions
 from questions.forms import CaseForm, CaseCommentForm, DocumentForm, CommentCommentForm
 from common.models import User, Comment, Comment_2_Comment, Practicearea
 from common.utils import PRIORITY_CHOICE, STATUS_CHOICE, INDCHOICES, body_plain as b_p
-from common.utils import test_receive_email, determine_area, return_email_info
+from common.utils import test_receive_email, determine_area, return_email_info, return_email_info_comment
 from itertools import chain
 from questions.cite_finder import cite_finder
 from django.db.models import F
@@ -260,7 +260,7 @@ def view_question(request, case_id):
         comment_id = get_object_or_404(Comment, id=request.POST.get('commentid'))
         commenter = comment_id.commented_by_id
         comment_id_email = get_object_or_404(User, id=commenter).email
-        print("Need to email ", comment_id_email)
+
         if request.user:
             form = CommentCommentForm(request.POST, request.FILES)
             if form.is_valid():
@@ -274,6 +274,15 @@ def view_question(request, case_id):
                 comment_comment.orig_comment = comment_id
                 print(comment_comment.commented_on)
                 comment_comment.save()
+                return_email_info_comment(
+                                            comment_id_email,
+                                            'alerts@mg.finch-km.com',
+                                            'New Reply to Your Comment',
+                                            comment_comment.commented_by,
+                                            comment_comment.comment,
+                                            comment_comment.case_id_id)
+
+                # return_email_info(comment_id_email, 'comments@finch-km.com', 'New Comment', comment_comment.case_id_id)
         else:
             data = {'error': "You Dont Have permission to Comment"}
             return JsonResponse(data)
@@ -411,7 +420,9 @@ def add_comment(request):
     print("HEY")
     if request.method == 'POST':
         case = get_object_or_404(Case, id=request.POST.get('caseid'))
-        questioner_email = case.created_by
+        questioner = case.created_by
+        questioner_email = get_object_or_404(User, username=questioner).email
+
         print("Need to email ", questioner_email)
         ## Email notification that question got answered
         if request.user:
@@ -423,13 +434,21 @@ def add_comment(request):
                 User.objects.filter(id=request.user.id).update(score=F('score') + 1)
                 case_comment.comment = request.POST.get('comment')
                 case_comment.related_document = request.FILES.get('file_upload')
-
                 case_comment.commented_by = request.user
                 case_comment.case = case
                 print("Orig Q =", case.issue_detail)
                 case.related_words = nltk_rel_words(case.issue_detail+" "+case_comment.comment)
                 case.save()
                 case_comment.save()
+                print("ID = ", case_comment.case.id)
+                return_email_info_comment(
+                                            questioner_email,
+                                            'alerts@mg.finch-km.com',
+                                            'New Comment',
+                                            case_comment.commented_by,
+                                            case_comment.comment,
+                                            case_comment.case.id)
+
                 data = {"comment_id": case_comment.id, "comment": case_comment.comment,
                         "commented_on": case_comment.commented_on,
                         "commented_by": case_comment.commented_by.email}
@@ -516,7 +535,9 @@ def receive_email(request):
     sender = 'sam@lancorp.co'
     recipient = 'appeals@mg.finch-km.com'
     subject = 'Test this thang fool'
+    to_save_id = 53
     # return_email_info(sender, recipient, subject)
+    return_email_info(sender, recipient, subject, to_save_id)
 
     if request.method == 'POST':
         talon.init()
@@ -525,6 +546,7 @@ def receive_email(request):
         recipient = request.POST.get('recipient')
         subject   = request.POST.get('subject', '')
         body_plain = request.POST.get('body-plain', '')
+
         text, signature = signature.extract(body_plain, sender=sender)
         body_without_quotes = request.POST.get('stripped-text', '')
         sender_name = get_object_or_404(
@@ -552,14 +574,11 @@ def receive_email(request):
                             sender_name.county,
                             to_save.id)
 
-        print("++++++++++++++++++++++++++++++++")
-        print(raw_sender_name)
-        print(subject)
-        print("SUCCESS")
-    #          # attachments:
-    #     for key in request.FILES:
-    #         file = request.FILES[key]
-    #              # do something with the file
+
+             # attachments:
+        # for key in request.FILES:
+        #     file = request.FILES[key]
+                 # do something with the file
     #
     #      # Returned text is ignored but HTTP status code matters:
     #      # Mailgun wants to see 2xx, otherwise it will make another attempt in 5 minutes

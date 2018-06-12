@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-email_body = """
+email_body_comment = """
 <!doctype html>
 <html>
   <head>
@@ -92,38 +92,7 @@ email_body = """
         <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
           <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
             <h2 style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px; text-align:center">
-              <img src="http://aws.finch-km.com/static/images/greyfinch.png" style="width:26px">
-             Thank you for posting your
-             discussion to Finch. </h2>
-
-              <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
-              <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
-
-
-                <tr>
-                  <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
-                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-                      <tr>
-
-
-                        <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; horizontal-align: center">
-
-
-
-                        <a href="" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">
-                          View your post! </a> </td><br></br>
-                          <p>
-                            When someone responds to your post, we'll alert you
-                                via email.</p>
-
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-              <!-- END MAIN CONTENT AREA -->
-            </table></span><br>
+              <img src="http://aws.finch-km.com/static/images/greyfinch.png" style="width:26px"><br>Finch-KM</h2>
 
 
  <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
@@ -139,15 +108,13 @@ email_body = """
            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; horizontal-align: center">
 
 <tbody>
-<p>In the mean time we've run a search of
-    the database and found the following items
-    that may be relevant to what you're looking
-    for:</p>
+<p>User {0} has made a comment on your post:</p>
+<blockquote>{1}</blockquote>
   <tr>
     <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;">
 
-      <a href=" {0}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">
-        View your post!</a> </td><br></br>
+      <a href=" {2}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">
+        View your post and all comments</a> </td><br></br>
   </tr>
 </tbody>
 

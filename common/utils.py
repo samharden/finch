@@ -1,6 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 import requests
 from common.email_content import email_body
+from common.email_content_comment import email_body_comment
 
 def test_receive_email(body_plain):
     print("Test!")
@@ -46,6 +47,7 @@ def determine_area(recipient):
 
 
 def return_email_info(sender, recipient, subject, new_id):
+    print("Emailing")
     return requests.post(
         "https://api.mailgun.net/v3/mg.finch-km.com/messages",
         auth=("api", "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"),
@@ -55,10 +57,32 @@ def return_email_info(sender, recipient, subject, new_id):
 
                     "subject": subject,
 
-                    "html": email_body,
+                    "html": email_body.format('http://aws.finch-km.com/'+str(new_id)+'/viewquestion/'),
 
                 }
                 )
+
+def return_email_info_comment(sender, recipient, subject, commenter, comment, new_id):
+    print("Emailing")
+    return requests.post(
+        "https://api.mailgun.net/v3/mg.finch-km.com/messages",
+        auth=("api", "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"),
+        data={
+                    "from": recipient,
+                    "to": sender,
+
+                    "subject": subject,
+
+                    "html": email_body_comment.format(
+                                commenter,
+                                comment,
+                                'http://aws.finch-km.com/'+str(new_id)+'/viewquestion/',
+
+                                ),
+
+                }
+                )
+
 
 
 body_plain = """
