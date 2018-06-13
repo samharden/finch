@@ -548,7 +548,8 @@ def receive_email(request):
         body_plain = request.POST.get('body-plain', '')
         for key in request.FILES:
             file = request.FILES[key]
-            attachment_name = request.POST.get('attachment-0')
+            # attachment_name = request.POST.get('attachment')
+            attachment_name = 'attachment'
 
         text, signature = signature.extract(body_plain, sender=sender)
         body_without_quotes = request.POST.get('stripped-text', '')
