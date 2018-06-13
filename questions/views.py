@@ -566,7 +566,7 @@ def receive_email(request):
                         created_by = str(raw_sender_name),
                         issue_area_id = determine_area(recipient),
                         related_document = file,
-                        related_document_name = attachment
+                        related_document_name = attachment_name
                         )
         to_save.save()
         print(to_save.id)
