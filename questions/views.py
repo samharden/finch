@@ -546,6 +546,9 @@ def receive_email(request):
         recipient = request.POST.get('recipient')
         subject   = request.POST.get('subject', '')
         body_plain = request.POST.get('body-plain', '')
+        for key in request.FILES:
+            file = request.FILES[key]
+            attachment_name = request.POST.get('attachment')
 
         text, signature = signature.extract(body_plain, sender=sender)
         body_without_quotes = request.POST.get('stripped-text', '')
@@ -562,6 +565,8 @@ def receive_email(request):
                         issue_detail = text,
                         created_by = str(raw_sender_name),
                         issue_area_id = determine_area(recipient),
+                        related_document = file,
+                        related_document_name = attachment
                         )
         to_save.save()
         print(to_save.id)
