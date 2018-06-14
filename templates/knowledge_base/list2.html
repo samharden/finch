@@ -25,15 +25,15 @@
           <div class="x_panel">
               <h2>{{why_me}}</h2>
 
-          {% for not_here in kb_types %}
+
 
           {% for ixnay in all_kb_items %}
 
           {% if ixnay.kb_area.id == why_me.id %}
 
 
-          {% if ixnay.kb_type.id == not_here.id %}
-          
+
+
           <div class="x_panel">
             <h2>{{not_here}}</h2>
             <div class="x_title">
@@ -58,11 +58,11 @@
 
           </div>
 
-          {% endif %}
+          
           {% endif %}
 
           {% endfor %}
-          {% endfor %}
+
 
         </div>
 
