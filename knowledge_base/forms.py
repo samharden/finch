@@ -30,7 +30,6 @@ class KnowledgebaseForm(forms.ModelForm):
         self.fields['body'].widget.attrs.update({
             'placeholder': 'Body', 'widget':'Textarea'})
 
-
         self.fields['judge'].required = False
         self.fields['citation'].required = False
         self.fields['statute_chapter'].required = False
@@ -52,7 +51,6 @@ class KnowledgebaseForm(forms.ModelForm):
         fields = (
                 'kb_area',
                 'kb_type',
-
                 'title',
                 'citation',
                 'judge',
