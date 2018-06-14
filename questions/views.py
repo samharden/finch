@@ -190,11 +190,12 @@ def add_question(request):
                 User.objects.filter(id=request.user.id).update(score=F('score') + 4)
 
                 ## Need to add related_document to knowledgebase
-                # to_save = KB_Item(
-                #                 kb_area = case.issue_area,
-                #                 body = question_text,
-                #                 title = case.title,
-                #                 )
+                to_save_kb = KB_Item(
+                                kb_area = case.issue_area,
+                                body = question_text,
+                                title = case.title,
+                                )
+                to_save_kb.save()
 
                 if str(case.related_document).split('.')[1] == 'docx':
                     print("Word doc!")
