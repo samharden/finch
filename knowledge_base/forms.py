@@ -40,6 +40,7 @@ class KnowledgebaseForm(forms.ModelForm):
         self.fields['neg_resp'].required = False
         self.fields['body'].required = False
         self.fields['plain_body'].required = False
+        self.fields['kb_type'].required = False
 
         issue_detail = forms.CharField(widget=forms.Textarea)
 
