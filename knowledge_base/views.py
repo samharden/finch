@@ -28,22 +28,22 @@ def knowledge_base_list(request):
     questions = Case.objects.all()
     all_kb_items = KB_Item.objects.all()
     kb_areas = Practicearea.objects.all()
-    kb_types = KBType.objects.all()
+    # kb_areas = KBType.objects.all()
 
     states = KB_Item.objects.all().values_list('state', flat=True).distinct()
     # statutes = KB_Item.objects.all().values_list('statute_chapter', flat=True).distinct()
-    statutes = KB_Item.objects.filter(kb_type=2).values_list('statute_chapter', 'state').distinct()
+    statutes = KB_Item.objects.filter(kb_area=2).values_list('statute_chapter', 'state').distinct()
     # statutes_2 = KB_Item.objects.all()
-    statutes_2 = KB_Item.objects.filter(kb_type=2).distinct()
-    prac_guides = KB_Item.objects.filter(kb_type=1).distinct()
-    elements = KB_Item.objects.filter(kb_type=4).distinct()
-    grounds = KB_Item.objects.filter(kb_type=5).distinct()
+    statutes_2 = KB_Item.objects.filter(kb_area=2).distinct()
+    prac_guides = KB_Item.objects.filter(kb_area=1).distinct()
+    elements = KB_Item.objects.filter(kb_area=4).distinct()
+    grounds = KB_Item.objects.filter(kb_area=5).distinct()
     page_title = "Knowledge Base"
     if len(state_filter) != 0:
-        statutes = KB_Item.objects.filter(kb_type__contains='statute').filter(state__contains=state_filter).values_list('statute_chapter', 'state').distinct()
-        statutes_2 = KB_Item.objects.filter(kb_type__contains='statute').filter(state__contains=state_filter).distinct()
-        prac_guides = KB_Item.objects.filter(kb_type__contains='guide').filter(state__contains=state_filter).distinct()
-        elements = KB_Item.objects.filter(kb_type__contains='element').filter(state__contains=state_filter).distinct()
+        statutes = KB_Item.objects.filter(kb_area__contains='statute').filter(state__contains=state_filter).values_list('statute_chapter', 'state').distinct()
+        statutes_2 = KB_Item.objects.filter(kb_area__contains='statute').filter(state__contains=state_filter).distinct()
+        prac_guides = KB_Item.objects.filter(kb_area__contains='guide').filter(state__contains=state_filter).distinct()
+        elements = KB_Item.objects.filter(kb_area__contains='element').filter(state__contains=state_filter).distinct()
     if name:
         print(name)
         items_1 = KB_Item.objects.filter(statute_heading__contains=name)
@@ -78,7 +78,7 @@ def knowledge_base_list(request):
     'grounds':grounds,
     'all_kb_items':all_kb_items,
     'kb_areas':kb_areas,
-    'kb_types':kb_types,
+    'kb_areas':kb_areas,
     })
 
 @login_required
@@ -166,12 +166,12 @@ def statute_as_json(request, type, state, statute_chapter, statute_number):
     data = serializers.serialize(
                                 'json',
                                 KB_Item.objects.filter(
-                                    kb_type__contains=type,
+                                    kb_area__contains=type,
                                     state__contains=state,
                                     statute_chapter__contains=statute_chapter,
                                     statute_number__contains=statute_number,
                                     ),
-                                    fields=('kb_type','state','statute_chapter','statute_number','plain_body')
+                                    fields=('kb_area','state','statute_chapter','statute_number','plain_body')
                                 )
     # soup = bsoup(data)
     # text = soup.get_text()
@@ -183,12 +183,12 @@ def element_as_json(request, type, state, kb_area, statute_heading):
     data = serializers.serialize(
                                 'json',
                                 KB_Item.objects.filter(
-                                    kb_type__contains=type,
+                                    kb_area__contains=type,
                                     state__contains=state,
-                                    kb_area__contains=kb_area,
+                                    
                                     statute_heading__contains=statute_heading,
                                     ),
-                                    fields=('kb_type','state','kb_area','statute_heading','plain_body', 'trigger')
+                                    fields=('kb_area','state','kb_area','statute_heading','plain_body', 'trigger')
                                 )
 
     return HttpResponse(data)
@@ -198,10 +198,10 @@ def all_element_as_json(request, type, state):
     data = serializers.serialize(
                                 'json',
                                 KB_Item.objects.filter(
-                                    kb_type__contains=type,
+                                    kb_area__contains=type,
                                     state__contains=state,
                                     ),
-                                    fields=('kb_type',
+                                    fields=('kb_area',
                                     'state',
                                     'kb_area',
                                     'statute_chapter',
