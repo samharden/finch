@@ -192,7 +192,7 @@ def add_question(request):
                 ## Need to add related_document to knowledgebase
                 to_save_kb = KB_Item(
                                 kb_area = case.issue_area,
-                                kb_type = case.issue_area,
+                                # kb_type = case.issue_area,
                                 body = question_text,
                                 title = case.title,
                                 )
