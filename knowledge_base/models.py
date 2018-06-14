@@ -9,7 +9,7 @@ from common.utils import CASE_TYPE, COUNTIES, PRIORITY_CHOICE, STATUS_CHOICE, IN
 
 class KB_Item(models.Model):
     # kb_type = models.CharField(pgettext_lazy("Type of Item", "Type of Item"), choices=KB_TYPE,  max_length=64)
-    kb_type = models.ForeignKey(KBType, on_delete=models.CASCADE)
+    # kb_type = models.ForeignKey(KBType, on_delete=models.CASCADE)
     title = models.CharField(
         pgettext_lazy("Title", "Title"),
         max_length=64)
@@ -49,7 +49,7 @@ class KB_Item(models.Model):
     # kb_area = models.CharField(pgettext_lazy("Area", "Area"), choices=CASE_TYPE, max_length=64)
 
     class Meta:
-        ordering = ['kb_type']
+        ordering = ['kb_area']
     def __str__(self):
         return self.title
         # if len(self.statute_chapter) > 0:
