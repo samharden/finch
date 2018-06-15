@@ -193,8 +193,10 @@ def add_question(request):
                 to_save_kb = KB_Item(
                                 kb_area = case.issue_area,
                                 # kb_type_id = 1,
+                                related_document = case.related_document,
                                 body = question_text,
                                 title = case.title,
+                                ## Need to add this discussion as related discussion
                                 )
                 to_save_kb.save()
 

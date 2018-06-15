@@ -46,6 +46,7 @@ class KB_Item(models.Model):
         pgettext_lazy("If Negative Response to Trigger", "If Negative Response to Trigger"),
         max_length=600, default="")
     kb_area = models.ForeignKey(Practicearea, on_delete=models.CASCADE)
+    related_document = models.FileField(upload_to='documents/')
     # kb_area = models.CharField(pgettext_lazy("Area", "Area"), choices=CASE_TYPE, max_length=64)
 
     class Meta:

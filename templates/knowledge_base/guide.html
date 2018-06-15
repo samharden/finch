@@ -68,18 +68,19 @@
                                                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
 
                                                     <div id="myTabContent" class="tab-content">
-
+                                                      {% if guide.body %}
                                                       <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
-                                                        <h4>Text:</h4>
+
                                                         <div id="content">
-                                                          {% if guide.body %}
-                                                          <h4>Explanation:</h4>
+
+                                                        
                                                           <p>{{guide.body|safe}}</p>
-                                                          {% endif %}
+
 
 
 
                                                         </div>
+                                                          {% endif %}
 
                                                   <ul class="list-unstyled timeline">
                                                     {% if guide.trigger %}
@@ -144,7 +145,32 @@
                                                     </li>
                                                     {% endif %}
                                                   </ul>
+                                                  {% if guide.related_document %}
+                                                  <div class="x_panel">
+                                                    <div class="x_title">
+                                                        RELATED DOCUMENTS:
+                                                          <a href="/media/{{guide.related_document}}">
+                                                            <button><i class="fa fa-download"></i>
+                                                              {% if guide.related_document_name %}
+                                                              {{guide.related_document_name}}
+                                                              {% else %}
+                                                              Download
+                                                              {% endif %}
+                                                            </button></a>
+                                                    </div>
+                                                    {% if pdf_odj %}
+                                                    <div  style="margin-left:1%; margin-right:1%; height:500px" id="motion_pdf">
+                                                      <div>
 
+                                                      </div>
+                                                      </div>
+                                                      {% endif %}
+
+                                                    {% if guide.related_doc_body %}
+                                                    {{guide.related_doc_body|safe}}
+                                                    {% endif %}
+                                                    </div>
+                                                  {% endif %}
                                                 </div>
 
                                                       <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
