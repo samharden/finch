@@ -145,7 +145,7 @@ def knowledge_base_statute(request, statute_chapter, statute_number):
                 })
 
 
-    return render(request, "knowledge_base/statute.html", {
+    return render(request, "knowledge_base/guide.html", {
     'statute':statute,
     'questions':questions,
     'form':form,
@@ -185,7 +185,7 @@ def element_as_json(request, type, state, kb_area, statute_heading):
                                 KB_Item.objects.filter(
                                     kb_area__contains=type,
                                     state__contains=state,
-                                    
+
                                     statute_heading__contains=statute_heading,
                                     ),
                                     fields=('kb_area','state','kb_area','statute_heading','plain_body', 'trigger')
@@ -219,7 +219,13 @@ def knowledge_base_guide(request, kb_id):
     # title = title.replace("-"," ")
     guide = get_object_or_404(
         KB_Item.objects.prefetch_related(), id=kb_id)
-
+    if guide.related_document:
+        if str(guide.related_document).split('.')[1] == 'pdf':
+            pdf_odj = True
+        else:
+            pdf_odj = False
+    else:
+        pdf_odj = False
     questions = Case.objects.filter(rel_statute_link=guide.id)
     form = CaseForm()
     page_title = "Knowledge Base"
@@ -282,6 +288,7 @@ def knowledge_base_guide(request, kb_id):
     'guide':guide,
     'questions':questions,
     'form':form,
+    'pdf_odj':pdf_odj,
 
     })
 

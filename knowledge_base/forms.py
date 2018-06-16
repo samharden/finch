@@ -35,12 +35,12 @@ class KnowledgebaseForm(forms.ModelForm):
         self.fields['statute_chapter'].required = False
         self.fields['statute_number'].required = False
         self.fields['statute_heading'].required = False
-        self.fields['trigger'].required = False
-        self.fields['aff_resp'].required = False
-        self.fields['neg_resp'].required = False
+        # self.fields['trigger'].required = False
+        # self.fields['aff_resp'].required = False
+        # self.fields['neg_resp'].required = False
         self.fields['body'].required = False
-        self.fields['plain_body'].required = False
-        self.fields['related_document'].required = False
+        # self.fields['plain_body'].required = False
+        # self.fields['related_document'].required = False
 
         issue_detail = forms.CharField(widget=forms.Textarea)
 
@@ -60,11 +60,12 @@ class KnowledgebaseForm(forms.ModelForm):
                 'statute_heading',
                 'state',
                 'body',
-                'plain_body',
+                # 'plain_body',
                 'kb_area',
-                'trigger',
-                'aff_resp',
-                'neg_resp',
+                # 'trigger',
+                # 'aff_resp',
+                # 'neg_resp',
+                'related_document'
                 )
 
     def clean_name(self):

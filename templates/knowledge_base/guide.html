@@ -73,7 +73,7 @@
 
                                                         <div id="content">
 
-                                                        
+
                                                           <p>{{guide.body|safe}}</p>
 
 
@@ -295,9 +295,11 @@
   <!-- questions_list ends here -->
 </div>
 <!-- main_container ends here -->
+<script>PDFObject.embed("/media/{{guide.related_document}}", "#motion_pdf");</script>
 {% endblock %}
 {% block js_block %}
   <script src="{% static 'js/questions/questions.js' %}"></script>
+  <script>PDFObject.embed("/media/{{guide.related_document}}", "#motion_pdf");</script>
   <script>
   $(function(){
   $(‘#content’).annotator();
