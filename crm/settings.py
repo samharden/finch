@@ -142,7 +142,7 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', )
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media0')
 # MEDIA_URL = '/media/'
 MEDIA_URL = '/app/media/'
 
