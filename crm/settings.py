@@ -35,12 +35,6 @@ INSTALLED_APPS = [
     'common',
     'questions',
     'knowledge_base',
-    # 'motions',
-    # 'judges',
-    # 'pleadings',
-    # 'orders',
-    # 'depos',
-    # 'experts',
     'simple_pagination',
     'tinymce',
 ]
@@ -71,7 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                # 'django.template.context_processors.media'
             ],
         },
     },
@@ -149,6 +143,7 @@ EMAIL_PORT = 25
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# MEDIA_URL = '/media/'
+MEDIA_URL = '/app/media/'
 
 AUTH_USER_MODEL = 'common.User'
