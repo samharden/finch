@@ -149,7 +149,7 @@
                                                   <div class="x_panel">
                                                     <div class="x_title">
                                                         RELATED DOCUMENTS:
-                                                          <a href="/media/{{guide.related_document}}">
+                                                          <a href="https://s3.amazonaws.com/finch-bucket/media/{{guide.related_document}}">
                                                             <button><i class="fa fa-download"></i>
                                                               {% if guide.related_document_name %}
                                                               {{guide.related_document_name}}
@@ -295,7 +295,7 @@
   <!-- questions_list ends here -->
 </div>
 <!-- main_container ends here -->
-<script>PDFObject.embed("/media/{{guide.related_document}}", "#motion_pdf");</script>
+<script>PDFObject.embed("https://s3.amazonaws.com/finch-bucket/media/{{guide.related_document}}", "#motion_pdf");</script>
 {% endblock %}
 {% block js_block %}
   <script src="{% static 'js/questions/questions.js' %}"></script>

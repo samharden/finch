@@ -65,7 +65,7 @@
           </div>
           <script src="{% static 'js/questions/view_case.js' %}"></script>
           <script src="{% static 'js/questions/create_case.js' %}"></script>
-            <script>PDFObject.embed("/media/{{case_record.related_document}}", "#motion_pdf");</script>
+            <script>PDFObject.embed("https://s3.amazonaws.com/finch-bucket/media/{{case_record.related_document}}", "#motion_pdf");</script>
             <script>PDFObject.embed("/media/{{comment.related_document}}", "#comment_pdf");</script>
 
 
