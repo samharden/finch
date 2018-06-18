@@ -143,6 +143,7 @@ USE_TZ = True
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_URL = '/media/'
 
+
 ########
 AWS_ACCESS_KEY_ID = 'AKIAIC3BRBZYDP7HRCWQ'
 AWS_SECRET_ACCESS_KEY = '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'
