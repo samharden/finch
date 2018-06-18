@@ -44,7 +44,7 @@
                     </div>
 
 
-                
+
 
               </div>
                 <div class="col-md-12">
@@ -222,5 +222,5 @@
 {% block js_block %}
   <script src="{% static 'js/questions/view_case.js' %}"></script>
   <script src="{% static 'js/questions/create_case.js' %}"></script>
-    <script>PDFObject.embed("/media/{{user_record.related_document}}", "#motion_pdf");</script>
+    <script>PDFObject.embed("https://s3.amazonaws.com/finch-bucket/media/{{user_record.related_document}}", "#motion_pdf");</script>
 {% endblock js_block %}
