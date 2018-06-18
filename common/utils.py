@@ -41,6 +41,8 @@ def determine_area(recipient):
         issue_area_id_num = 2
     elif recipient == 'appeals@mg.finch-km.com':
         issue_area_id_num = 1
+    elif recipient == 'pleadings@mg.finch-km.com':
+        issue_area_id_num = 7
     else:
         if 'comment-alert' in recipient:
             case_id = re.findall('(\d+)', recipient)
@@ -76,7 +78,7 @@ def return_email_info(sender, recipient, subject, new_id):
 
                     "subject": subject,
 
-                    "html": email_body.format('http://aws.finch-km.com/'+str(new_id)+'/viewquestion/'),
+                    "html": email_body.format('https://finch-km.com/'+str(new_id)+'/viewquestion/'),
 
                 }
                 )
@@ -95,7 +97,7 @@ def return_email_info_comment(sender, recipient, subject, commenter, comment, ne
                     "html": email_body_comment.format(
                                 commenter,
                                 comment,
-                                'http://aws.finch-km.com/'+str(new_id)+'/viewquestion/',
+                                'https://finch-km.com/'+str(new_id)+'/viewquestion/',
 
                                 ),
 
