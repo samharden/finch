@@ -22,7 +22,7 @@
 
 
                   {% if case_record.created_by == logged_in_user.username %}
-                  <div class="pull-right" style="margin-right:10px">
+                  <div class="pull-right" style="margin-right:50px">
                   <div class="dropdown">
 
 
@@ -94,7 +94,7 @@
           <div class="x_panel">
             <div class="x_title">
                 RELATED DOCUMENTS:
-                  <a href="/media/{{case_record.related_document}}">
+                  <a href="https://s3.amazonaws.com/finch-bucket/media/{{case_record.related_document}}">
                     <button><i class="fa fa-download"></i>
                       {% if case_record.related_document_name %}
                       {{case_record.related_document_name}}
