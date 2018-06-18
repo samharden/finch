@@ -226,7 +226,7 @@
 
                   <p class="message">{{ comment.comment|urlizetrunc:30|safe }} </p>
                   {% if comment.related_document %}
-                  <p><a href="/media/{{comment.related_document}}">
+                  <p><a href="https://s3.amazonaws.com/finch-bucket/media/{{comment.related_document}}">
                     <button><i class="fa fa-download"></i>
 
                     Download
