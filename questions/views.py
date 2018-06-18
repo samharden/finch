@@ -551,16 +551,11 @@ def receive_email(request):
     if request.method == 'POST':
         talon.init()
         from talon import signature
+
         sender    = request.POST.get('sender')
         recipient = request.POST.get('recipient')
         subject   = request.POST.get('subject', '')
         body_plain = request.POST.get('body-plain', '')
-        if request.FILES:
-            for key in request.FILES:
-                file = request.FILES[key]
-                # attachment_name = request.POST.get('attachment')
-                attachment_name = 'attachment'
-
         text, signature = signature.extract(body_plain, sender=sender)
         body_without_quotes = request.POST.get('stripped-text', '')
         sender_name = get_object_or_404(
@@ -569,16 +564,32 @@ def receive_email(request):
         synonyms = nltk_rel_words_email(subject + " " + text)
         print("Synonyms = ", synonyms)
 
-        to_save = Case(
-                        state = sender_name.state,
-                        county = sender_name.county,
-                        title = subject,
-                        issue_detail = text,
-                        created_by = str(raw_sender_name),
-                        issue_area_id = determine_area(recipient),
-                        related_document = file,
-                        related_document_name = attachment_name
-                        )
+
+        if request.FILES:
+            for key in request.FILES:
+                file = request.FILES[key]
+                # attachment_name = request.POST.get('attachment')
+                attachment_name = 'attachment'
+                to_save = Case(
+                                state = sender_name.state,
+                                county = sender_name.county,
+                                title = subject,
+                                issue_detail = text,
+                                created_by = str(raw_sender_name),
+                                issue_area_id = determine_area(recipient),
+                                related_document = file,
+                                related_document_name = attachment_name
+                                )
+        else:
+            to_save = Case(
+                            state = sender_name.state,
+                            county = sender_name.county,
+                            title = subject,
+                            issue_detail = text,
+                            created_by = str(raw_sender_name),
+                            issue_area_id = determine_area(recipient),
+                            )
+
         to_save.save()
         print(to_save.id)
 
