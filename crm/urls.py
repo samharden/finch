@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth import views
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.static import serve
+
 
 app_name = 'crm'
 
@@ -17,8 +17,9 @@ urlpatterns = [
     url(r'^logout/$', views.logout, {'next_page': '/login/'}, name='logout'),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^tinymce/', include('tinymce.urls')),
-    url(r'^media/documents/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+
 
 
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
