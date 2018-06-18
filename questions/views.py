@@ -555,10 +555,11 @@ def receive_email(request):
         recipient = request.POST.get('recipient')
         subject   = request.POST.get('subject', '')
         body_plain = request.POST.get('body-plain', '')
-        for key in request.FILES:
-            file = request.FILES[key]
-            # attachment_name = request.POST.get('attachment')
-            attachment_name = 'attachment'
+        if request.FILES:
+            for key in request.FILES:
+                file = request.FILES[key]
+                # attachment_name = request.POST.get('attachment')
+                attachment_name = 'attachment'
 
         text, signature = signature.extract(body_plain, sender=sender)
         body_without_quotes = request.POST.get('stripped-text', '')

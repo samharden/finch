@@ -78,7 +78,7 @@ def return_email_info(sender, recipient, subject, new_id):
 
                     "subject": subject,
 
-                    "html": email_body.format('https://finch-km.com/'+str(new_id)+'/viewquestion/'),
+                    "html": email_body.format('https://www.finch-km.com/'+str(new_id)+'/viewquestion/'),
 
                 }
                 )
@@ -97,7 +97,7 @@ def return_email_info_comment(sender, recipient, subject, commenter, comment, ne
                     "html": email_body_comment.format(
                                 commenter,
                                 comment,
-                                'https://finch-km.com/'+str(new_id)+'/viewquestion/',
+                                'https://www.finch-km.com/'+str(new_id)+'/viewquestion/',
 
                                 ),
 
