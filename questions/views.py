@@ -122,9 +122,6 @@ def questions_list(request):
         for add_question in questions_raw:
             if add_question not in questions:
                 questions.append(add_question)
-
-
-
         searched = True
 
     score_up = request.GET.get('score_up','')
@@ -215,7 +212,7 @@ def add_question(request):
 
             for user_email in users:
                 print("Need to email a notification to", user_email.email)
-            new_post_email_info('new-post-'+ case.id +'@mg.finch-km.com', 'sam@lancorp.co', 'New Post in '+str(case.issue_area), str(case.issue_area), case.created_by, case.issue_detail, case.id)
+            new_post_email_info('new-post-'+ str(case.id) +'@mg.finch-km.com', 'sam@lancorp.co', 'New Post in '+str(case.issue_area), str(case.issue_area), case.created_by, case.issue_detail, case.id)
 
             if request.is_ajax():
                 return JsonResponse({'error': False})
