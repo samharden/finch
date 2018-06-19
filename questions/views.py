@@ -6,7 +6,7 @@ from questions.models import Case, UploadFile, RelatedQuestions
 from questions.forms import CaseForm, CaseCommentForm, DocumentForm, CommentCommentForm
 from common.models import User, Comment, Comment_2_Comment, Practicearea
 from common.utils import PRIORITY_CHOICE, STATUS_CHOICE, INDCHOICES, body_plain as b_p
-from common.utils import test_receive_email, determine_area, return_email_info, return_email_info_comment
+from common.utils import test_receive_email, determine_area, return_email_info, return_email_info_comment, new_post_email_info
 from itertools import chain
 from questions.cite_finder import cite_finder
 from django.db.models import F
@@ -211,6 +211,10 @@ def add_question(request):
                     case.created_by = str(request.user)
 
             case.save()
+
+            for user_email in users:
+                print("Need to email a notification to", user_email.email)
+            new_post_email_info('new-post@mg.finch-km.com', 'sam@lancorp.co', 'New Post in '+str(case.issue_area), str(case.issue_area), case.created_by, case.issue_detail, case.id)
 
             if request.is_ajax():
                 return JsonResponse({'error': False})
@@ -539,14 +543,6 @@ def upload_file(request):
 
 @csrf_exempt
 def receive_email(request):
-
-    # test_receive_email(b_p)
-    # sender = 'sam@lancorp.co'
-    # recipient = 'appeals@mg.finch-km.com'
-    # subject = 'Test this thang fool'
-    # to_save_id = 53
-    # return_email_info(sender, recipient, subject)
-    # return_email_info(sender, recipient, subject, to_save_id)
 
     if request.method == 'POST':
         talon.init()
