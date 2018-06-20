@@ -559,7 +559,7 @@ def receive_email(request):
         ## reply to post creates comment to that post
         if 'newpost' in recipient:
             print('found newhost')
-            post_id = re.findall('([0-9])+', recipient)
+            post_id = re.findall('([0-9]+)', recipient)
             print("Add comment to post ID ", post_id)
             to_save_comment = Comment(
                             case = post_id,
@@ -568,8 +568,6 @@ def receive_email(request):
                             )
             to_save_comment.save()
             return HttpResponse('OK')
-
-
 
         else:
 
