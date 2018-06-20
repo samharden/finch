@@ -557,7 +557,7 @@ def receive_email(request):
         print("Synonyms = ", synonyms)
 
         ## reply to post creates comment to that post
-        if 'newpost' in recipent:
+        if 'newpost' in recipient:
             print('found newhost')
             post_id = re.findall('([0-9])+', recipent)
             print("Add comment to post ID ", post_id)
