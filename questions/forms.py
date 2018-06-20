@@ -48,7 +48,7 @@ class CaseForm(forms.ModelForm):
         self.fields['related_document_desc'].required = False
         self.fields['issue_detail'].required = False
         self.fields['issue_summary'].required = False
-        self.fields['issue_area'].required = False
+        # self.fields['issue_area'].required = False
         self.fields['related_cite'].required = False
 
         # issue_detail = forms.CharField(widget=forms.Textarea)
