@@ -558,6 +558,7 @@ def receive_email(request):
 
         ## reply to post creates comment to that post
         if 'newpost' in recipent:
+            print('found newhost')
             post_id = re.findall('([0-9])+', recipent)
             print("Add comment to post ID ", post_id)
         else:
