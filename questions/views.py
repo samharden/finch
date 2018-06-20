@@ -212,7 +212,7 @@ def add_question(request):
 
             for user_email in users:
                 print("Need to email a notification to", user_email.email)
-            new_post_email_info('new-post-'+ str(case.id) +'@mg.finch-km.com', 'sam@lancorp.co', 'New Post in '+str(case.issue_area), str(case.issue_area), case.created_by, case.issue_detail, case.id)
+            new_post_email_info('newpost-'+ str(case.id) +'@mg.finch-km.com', 'sam@lancorp.co', 'New Post in '+str(case.issue_area), str(case.issue_area), case.created_by, case.issue_detail, case.id)
 
             if request.is_ajax():
                 return JsonResponse({'error': False})
@@ -557,14 +557,27 @@ def receive_email(request):
         print("Synonyms = ", synonyms)
 
         ## reply to post creates comment to that post
-        # if recpient == re.compile('alert-([0-9])\w+'):
-        #     pass
+        if 'newpost' in recipent:
+            post_id = re.findall('([0-9])+', recipent)
+            print("Add comment to post ID ", post_id)
+        else:
 
-        if request.FILES:
-            for key in request.FILES:
-                file = request.FILES[key]
-                # attachment_name = request.POST.get('attachment')
-                attachment_name = 'attachment'
+            if request.FILES:
+                for key in request.FILES:
+                    file = request.FILES[key]
+                    # attachment_name = request.POST.get('attachment')
+                    attachment_name = 'attachment'
+                    to_save = Case(
+                                    state = sender_name.state,
+                                    county = sender_name.county,
+                                    title = subject,
+                                    issue_detail = text,
+                                    created_by = str(raw_sender_name),
+                                    issue_area_id = determine_area(recipient),
+                                    related_document = file,
+                                    related_document_name = attachment_name
+                                    )
+            else:
                 to_save = Case(
                                 state = sender_name.state,
                                 county = sender_name.county,
@@ -572,29 +585,18 @@ def receive_email(request):
                                 issue_detail = text,
                                 created_by = str(raw_sender_name),
                                 issue_area_id = determine_area(recipient),
-                                related_document = file,
-                                related_document_name = attachment_name
                                 )
-        else:
-            to_save = Case(
-                            state = sender_name.state,
-                            county = sender_name.county,
-                            title = subject,
-                            issue_detail = text,
-                            created_by = str(raw_sender_name),
-                            issue_area_id = determine_area(recipient),
-                            )
 
-        to_save.save()
-        print(to_save.id)
+            to_save.save()
+            print(to_save.id)
 
-        return_email_info(sender, recipient, subject, to_save.id)
+            return_email_info(sender, recipient, subject, to_save.id)
 
-        find_rel_questions_email(
-                            synonyms,
-                            determine_area(recipient),
-                            sender_name.county,
-                            to_save.id)
+            find_rel_questions_email(
+                                synonyms,
+                                determine_area(recipient),
+                                sender_name.county,
+                                to_save.id)
 
 
              # attachments:
