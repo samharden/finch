@@ -565,7 +565,7 @@ def receive_email(request):
             to_save_comment = Comment(
                             case = post_id,
                             comment = text,
-                            commented_by = sender_name.id,
+                            commented_by = sender_name,
                             )
             to_save_comment.save()
             print("Success!")
