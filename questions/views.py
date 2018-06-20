@@ -561,10 +561,11 @@ def receive_email(request):
             print('found newhost')
             post_id = re.findall('([0-9]+)', recipient)
             print("Add comment to post ID ", post_id)
+            print("Sender name ", sender_name.id)
             to_save_comment = Comment(
                             case = post_id,
                             comment = text,
-                            commented_by = sender_name,
+                            commented_by = sender_name.id,
                             )
             to_save_comment.save()
             print("Success!")
