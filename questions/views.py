@@ -562,13 +562,12 @@ def receive_email(request):
             post_id = re.findall('([0-9])+', recipient)
             print("Add comment to post ID ", post_id)
             to_save_comment = Comment(
-                            case = post_id
-                            comment = text
-                            commented_on = models.DateTimeField(auto_now_add=True)
-                            commented_by =str(raw_sender_name)
+                            case = post_id,
+                            comment = text,
+                            commented_by =str(raw_sender_name),
                             )
             to_save_comment.save()
-            return HttpResponse('OK')                     
+            return HttpResponse('OK')
 
 
 
