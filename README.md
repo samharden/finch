@@ -15,7 +15,7 @@ git push heroku master
 
 ## To-Do (in order of importance):
 * Dockerized container of finch on AWS for VTNALEA - serve at vtnalea.finch-km.com  
-
+* What about removing PII or confidential info from uploads?
 
 * Email endpoint with mailgun - example:
 * 1.  send email to vtnaela@finch-km.com

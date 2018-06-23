@@ -114,7 +114,7 @@
 
             <td><a>{{question.related_document_name}}</a></td>
             <td><a>{{question.related_document_desc}}</a></td>
-            <td><a href="/media/{{question.related_document}}"><button class="btn btn-sm btn-success">Download</button></a></td>
+            <td><a href="https://s3.amazonaws.com/finch-bucket/media/{{question.related_document}}"><button class="btn btn-sm btn-success">Download</button></a></td>
           </tr>
             {% endif %}
           {% endif %}
@@ -128,7 +128,7 @@
 
           <td><a>{{doc.name}}</a></td>
           <td><a>{{doc.description}}</a></td>
-          <td><a href="/media/{{doc.document}}"><button class="btn btn-sm btn-success">Download</button></a></td>
+          <td><a href="https://s3.amazonaws.com/finch-bucket/media/{{doc.document}}"><button class="btn btn-sm btn-success">Download</button></a></td>
         </tr>
 
         {% endif %}
