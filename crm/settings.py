@@ -2,6 +2,15 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+## If you want to enable email notifications, set EMAIL_ENABLED to True,
+## and DOMAIN_ROOT to your mailgun mx domain
+EMAIL_ENABLED = True
+DOMAIN_ROOT = 'mg.finch-km.com'
+MAILGUN_API_KEY = "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"
+## If you have a Fastcase API Key and want finch to look up citation links:
+FASTCASE_API = False
+FASTCASE_API_KEY = "hQ84vRByK8PaMGSSDs6v"
+## Otherwise it uses Google Scholar.
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -10,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'apple-tree-maven-host'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1','aws.finch-km.com','0.0.0.0','ec2-18-206-61-184.compute-1.amazonaws.com','localhost','finch-km.herokuapp.com', 'finch-km.com', 'www.finch-km.com','demo.finch-km.com']
 
 if DEBUG == False:
@@ -79,28 +88,25 @@ WSGI_APPLICATION = 'crm.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'finchdb',
-        'USER': 'atticus',
-        'PASSWORD': 'fi8337269!',
-        'HOST': 'finch-db.clhbfnyguhjj.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'finchdb',
+    #     'USER': 'atticus',
+    #     'PASSWORD': 'fi8337269!',
+    #     'HOST': 'finch-db.clhbfnyguhjj.us-east-1.rds.amazonaws.com',
+    #     'PORT': '3306',
+    # }
 
 }
 
 FILE_UPLOAD_HANDLERS = [
     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 ]
-
-
-
 
 
 # Password validation

@@ -1,6 +1,7 @@
 import json
 import re
 from questions.fastcase_cite_get import get_citation
+from crm.settings import FASTCASE_API
 
 def link_grabber(text):
     citation_list = []
@@ -41,5 +42,8 @@ def link_grabber(text):
             last = x[2]
 
             print("Cite = ",citation_list)
-            # get_citation(first, middle, last)
-    return get_citation(first, middle, last)
+            # get_citation(first, middle, last
+    if FASTCASE_API:
+        return get_citation(first, middle, last)
+    else:
+        return "https://scholar.google.com/scholar?hl=en&as_sdt=40006&q="+first+"+"+"+"+middle+last

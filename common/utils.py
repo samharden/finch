@@ -3,46 +3,22 @@ import requests
 from common.email_content import email_body
 from common.email_content_comment import email_body_comment
 from common.email_content_new import email_body_new
+from crm.settings import DOMAIN_ROOT, MAILGUN_API_KEY
 
-def test_receive_email(body_plain):
-    print("Test!")
-    talon.init()
-    from talon import signature
-    sender    = 'sam@lancorp.co'
-    subject   = "Motion to Suppress Evidence"
-
-    text, signature = signature.extract(body_plain, sender=sender)
-    print(text)
-    body_without_quotes = request.POST.get('stripped-text', '')
-    text_total = subject + " " + text
-    # find_rel_questions_email(
-    #                     text_total,
-    #                     issue_area,
-    #                     case_record.county,
-    #                     )
-
-    synonyms = nltk_rel_words_email(text_total)
-    # determine frequency of issue areas in synonyms
-    areas_list = Practicearea.objects.all()
-    for what in areas_list:
-        print(what)
-        if str(what).lower() in synonyms:
-            print("Matched ", what)
-    print("Synonyms = ", synonyms)
 
 import re
 def determine_area(recipient):
-    if recipient == 'experts@mg.finch-km.com':
+    if recipient == 'experts@'+DOMAIN_ROOT:
         issue_area_id_num = 5
-    elif recipient == 'judges@mg.finch-km.com':
+    elif recipient == 'judges@'+DOMAIN_ROOT:
         issue_area_id_num = 4
-    elif recipient == 'motions@mg.finch-km.com':
+    elif recipient == 'motions@'+DOMAIN_ROOT:
         issue_area_id_num = 3
-    elif recipient == 'orders@mg.finch-km.com':
+    elif recipient == 'orders@'+DOMAIN_ROOT:
         issue_area_id_num = 2
-    elif recipient == 'appeals@mg.finch-km.com':
+    elif recipient == 'appeals@'+DOMAIN_ROOT:
         issue_area_id_num = 1
-    elif recipient == 'pleadings@mg.finch-km.com':
+    elif recipient == 'pleadings@'+DOMAIN_ROOT:
         issue_area_id_num = 7
     else:
         if 'comment-alert' in recipient:
@@ -71,15 +47,15 @@ def determine_area(recipient):
 def return_email_info(sender, recipient, subject, new_id):
     print("Emailing")
     return requests.post(
-        "https://api.mailgun.net/v3/mg.finch-km.com/messages",
-        auth=("api", "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"),
+        "https://api.mailgun.net/v3/"+DOMAIN_ROOT+"/messages",
+        auth=("api", MAILGUN_API_KEY),
         data={
                     "from": recipient,
                     "to": sender,
 
                     "subject": subject,
 
-                    "html": email_body.format('https://www.finch-km.com/'+str(new_id)+'/viewquestion/'),
+                    "html": email_body.format('http://'+DOMAIN_ROOT+str(new_id)+'/viewquestion/'),
 
                 }
                 )
@@ -87,8 +63,8 @@ def return_email_info(sender, recipient, subject, new_id):
 def new_post_email_info(sender, recipient, subject, area, poster, body, new_id):
     print("Emailing")
     return requests.post(
-        "https://api.mailgun.net/v3/mg.finch-km.com/messages",
-        auth=("api", "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"),
+        "https://api.mailgun.net/v3/"+DOMAIN_ROOT+"/messages",
+        auth=("api", MAILGUN_API_KEY),
         data={
                     "from": sender,
                     "to": recipient,
@@ -99,7 +75,7 @@ def new_post_email_info(sender, recipient, subject, area, poster, body, new_id):
                                 area,
                                 poster,
                                 body,
-                                'https://www.finch-km.com/'+str(new_id)+'/viewquestion/'),
+                                'http://'+DOMAIN_ROOT+str(new_id)+'/viewquestion/'),
 
                 }
                 )
@@ -108,8 +84,8 @@ def new_post_email_info(sender, recipient, subject, area, poster, body, new_id):
 def return_email_info_comment(sender, recipient, subject, commenter, comment, new_id):
     print("Emailing")
     return requests.post(
-        "https://api.mailgun.net/v3/mg.finch-km.com/messages",
-        auth=("api", "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"),
+        "https://api.mailgun.net/v3/"+DOMAIN_ROOT+"/messages",
+        auth=("api", MAILGUN_API_KEY),
         data={
                     "from": recipient,
                     "to": sender,
@@ -119,7 +95,7 @@ def return_email_info_comment(sender, recipient, subject, commenter, comment, ne
                     "html": email_body_comment.format(
                                 commenter,
                                 comment,
-                                'https://www.finch-km.com/'+str(new_id)+'/viewquestion/',
+                                'http://'+DOMAIN_ROOT+str(new_id)+'/viewquestion/',
 
                                 ),
 

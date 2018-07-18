@@ -5,8 +5,8 @@ from django.db.models import Q
 from questions.models import Case, UploadFile, RelatedQuestions
 from questions.forms import CaseForm, CaseCommentForm, DocumentForm, CommentCommentForm
 from common.models import User, Comment, Comment_2_Comment, Practicearea
-from common.utils import PRIORITY_CHOICE, STATUS_CHOICE, INDCHOICES, body_plain as b_p
-from common.utils import test_receive_email, determine_area, return_email_info, return_email_info_comment, new_post_email_info
+from common.utils import PRIORITY_CHOICE, STATUS_CHOICE, INDCHOICES
+from common.utils import determine_area, return_email_info, return_email_info_comment, new_post_email_info
 from itertools import chain
 from questions.cite_finder import cite_finder
 from django.db.models import F
@@ -20,7 +20,7 @@ from nltk.corpus import stopwords
 from questions.nltk_process import nltk_process, nltk_rel_words, find_rel_questions, nltk_rel_words_email, find_rel_questions_email
 import talon
 import re
-
+from crm.settings import EMAIL_ENABLED, DOMAIN_ROOT
 # CRUD Operations Start
 
 @csrf_exempt
@@ -209,11 +209,13 @@ def add_question(request):
                     case.created_by = str(request.user)
 
             case.save()
-
-            for user_email in users:
-                print("Need to email a notification to", user_email.email)
-            new_post_email_info('newpost-'+ str(case.id) +'@mg.finch-km.com', 'sam@lancorp.co', 'New Post in '+str(case.issue_area), str(case.issue_area), case.created_by, case.issue_detail, case.id)
-
+            if EMAIL_ENABLED:
+                for user_email in users:
+                    print("Need to email a notification to", user_email.email)
+                    try:
+                        new_post_email_info('newpost-'+ str(case.id) + '@' + DOMAIN_ROOT, user_email.email, 'New Post in '+str(case.issue_area), str(case.issue_area), case.created_by, case.issue_detail, case.id)
+                    except Exception as e:
+                        print(str(e))
             if request.is_ajax():
                 return JsonResponse({'error': False})
             if request.POST.get("savenewform"):
@@ -285,13 +287,17 @@ def view_question(request, case_id):
                 comment_comment.orig_comment = comment_id
                 print(comment_comment.commented_on)
                 comment_comment.save()
-                return_email_info_comment(
-                                            comment_id_email,
-                                            'alerts@mg.finch-km.com',
-                                            'New Reply to Your Comment',
-                                            comment_comment.commented_by,
-                                            comment_comment.comment,
-                                            comment_comment.case_id_id)
+                if EMAIL_ENABLED:
+                    try:
+                        return_email_info_comment(
+                                                    comment_id_email,
+                                                    'alerts@mg.finch-km.com',
+                                                    'New Reply to Your Comment',
+                                                    comment_comment.commented_by,
+                                                    comment_comment.comment,
+                                                    comment_comment.case_id_id)
+                    except Exception as e:
+                        print(str(e))
 
                 # return_email_info(comment_id_email, 'comments@finch-km.com', 'New Comment', comment_comment.case_id_id)
         else:
@@ -452,14 +458,17 @@ def add_comment(request):
                 case.save()
                 case_comment.save()
                 print("ID = ", case_comment.case.id)
-                return_email_info_comment(
+                if EMAIL_ENABLED:
+                    try:
+                        return_email_info_comment(
                                             questioner_email,
                                             'comment-alert-'+str(case_comment.case.id)+'@mg.finch-km.com',
                                             'New Comment',
                                             case_comment.commented_by,
                                             case_comment.comment,
                                             case_comment.case.id)
-
+                    except Exception as e:
+                        print(str(e))
                 data = {"comment_id": case_comment.id, "comment": case_comment.comment,
                         "commented_on": case_comment.commented_on,
                         "commented_by": case_comment.commented_by.email}
@@ -562,14 +571,17 @@ def receive_email(request):
             post_id = re.findall('([0-9]+)', recipient)
             print("Add comment to post ID ", post_id)
             print("Sender name ", sender_name.id)
-            to_save_comment = Comment(
-                            case = post_id,
-                            comment = text,
-                            commented_by = sender_name,
-                            )
-            to_save_comment.save()
-            print("Success!")
-            return HttpResponse('OK')
+            try:
+                to_save_comment = Comment(
+                                case = post_id,
+                                comment = text,
+                                commented_by = sender_name,
+                                )
+                to_save_comment.save()
+                print("Success!")
+                return HttpResponse('OK')
+            except Exception as e:
+                print(e)
 
         else:
 

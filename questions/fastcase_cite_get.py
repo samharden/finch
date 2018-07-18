@@ -2,11 +2,12 @@
 
 import requests
 import json
+from crm.settings import FASTCASE_API_KEY
 
 def get_citation(volume, reporter, page):
     body = {
     	"Context": {
-    		"ServiceAccountContext": "hQ84vRByK8PaMGSSDs6v",
+    		"ServiceAccountContext": FASTCASE_API_KEY,
     	},
     	"Request":{
     		"Citations":[
