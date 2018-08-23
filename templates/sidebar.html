@@ -48,9 +48,9 @@
         <li><a><i class="fa fa-map-marker"></i>{{county_filter}}<span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
 
-              {% for county in counties %}
-              <li><a href="/?county={{ county }}">{{county}}</a></li>
-              {% endfor %}
+
+              <li><a href="/">Clear Filter</a></li>
+
 
           </ul>
 
@@ -74,7 +74,23 @@
           </li>
           {% endif %}
 
+          {% if 'org' in request.get_full_path %}
+          <li><a><i class="fa fa-map-marker"></i>{{org_filter}}</a>
+            <ul class="nav child_menu">
 
+                  <li><a href="/">Clear Filter</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li><a><i class="fa fa-map-marker"></i>All Organizations <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+
+                {% for org in orgs %}
+                <li><a href="/?org={{ org }}">{{org}}</a></li>
+                {% endfor %}
+            </ul>
+          </li>
+          {% endif %}
         <!-- </li> -->
 
         {% if request.get_full_path == '/' %}
@@ -92,9 +108,9 @@
 
         </li>
         {% endif %}
-        <li><a style="" href="{% url 'questions:list' %}"><i class="fa fa-table"></i> View All Discussions</a>
+        <!-- <li><a style="" href="{% url 'questions:list' %}"><i class="fa fa-table"></i> View All Discussions</a>
 
-        </li>
+        </li> -->
 
         <li><a href="/knowledgebase"><i class="fa fa-sitemap"></i> Knowledge Base</a>
 

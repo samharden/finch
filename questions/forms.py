@@ -1,9 +1,9 @@
 from django import forms
 from django.forms import Textarea
 from questions.models import Case
-from common.models import Comment, Comment_2_Comment
+from common.models import Comment, Comment_2_Comment, LegalAidOrg, User
 from questions.models import UploadFile
-
+from django.forms.widgets import CheckboxSelectMultiple
 from tinymce.widgets import TinyMCE
 
 class DocumentForm(forms.ModelForm):
@@ -24,11 +24,12 @@ class DocumentForm(forms.ModelForm):
 
 
 class CaseForm(forms.ModelForm):
-
+    # visible = forms.ModelMultipleChoiceField(queryset=LegalAidOrg.objects.all())
     def __init__(self, *args, **kwargs):
         super(CaseForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs = {"class": "form-control"}
+        # self.fields['visible_to'].queryset = LegalAidOrg.objects.all()
         self.fields['title'].widget.attrs.update({
             'placeholder': 'Title'})
         self.fields['related_document_name'].widget.attrs.update({
@@ -50,7 +51,9 @@ class CaseForm(forms.ModelForm):
         self.fields['issue_summary'].required = False
         # self.fields['issue_area'].required = False
         self.fields['related_cite'].required = False
-
+        # self.fields['visible_to'].choices = LegalAidOrg.objects.all()
+        self.fields['visible_to'].widget = CheckboxSelectMultiple()
+        self.fields["visible_to"].queryset = LegalAidOrg.objects.all()
         # issue_detail = forms.CharField(widget=forms.Textarea)
         issue_detail = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
 
@@ -61,7 +64,8 @@ class CaseForm(forms.ModelForm):
         # }
         fields = ('title', 'issue_area', 'related_document_name',
         'rel_statute_link', 'issue_summary', 'issue_detail',
-        'related_document', 'related_document_desc', 'related_cite'
+        'related_document', 'related_document_desc', 'related_cite',
+        'visible_to'
         )
 
     def clean_name(self):

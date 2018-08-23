@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from questions.models import Case, UploadFile, RelatedQuestions
 from questions.forms import CaseForm, CaseCommentForm, DocumentForm, CommentCommentForm
-from common.models import User, Comment, Comment_2_Comment, Practicearea
+from common.models import User, Comment, Comment_2_Comment, Practicearea, LegalAidOrg
 from common.utils import PRIORITY_CHOICE, STATUS_CHOICE, INDCHOICES
 from common.utils import determine_area, return_email_info, return_email_info_comment, new_post_email_info
 from itertools import chain
@@ -66,17 +66,22 @@ def user_profile_page(request, username):
 
 @login_required
 def questions_list(request):
-    questions = Case.objects.all().order_by('-score')
+
+    # questions = Case.objects.filter(visible_to=request.user.legal_aid_org).order_by('-score').distinct()
+    questions = Case.objects.all().order_by('-score').distinct()
+
     page_title = 'Quorum'
     question_areas = Practicearea.objects.all().distinct()
     # question_areas = Case.objects.all().values_list('issue_area', flat=True).distinct()
     counties = Case.objects.all().values_list('county', flat=True).distinct()
+    orgs = LegalAidOrg.objects.all().values_list('name', flat=True).distinct()
     header = "Questions"
     page = request.POST.get('per_page')
     name = request.POST.get('name')
     specialty = request.POST.get('specialty')
     comments = Comment.objects.all()
     users = User.objects.all()
+    org_filter = request.GET.get('org', '')
     state_filter = request.GET.get('state', '')
     area_filter = request.GET.get('area','')
     county_filter = request.GET.get('county','')
@@ -87,6 +92,10 @@ def questions_list(request):
     if len(state_filter) != 0:
         questions = Case.objects.filter(state__contains=state_filter)
         header = 'Questions in '+state_filter
+
+    if len(org_filter) != 0:
+        questions = Case.objects.filter(visible_to__name__contains=org_filter)
+        header = 'Questions in '+org_filter
 
     if len(area_filter) != 0:
         questions = Case.objects.filter(issue_area=area_filter)
@@ -157,6 +166,8 @@ def questions_list(request):
         'KB_Items':KB_Items,
         'KB_Items_2':KB_Items_2,
         'page_title':page_title,
+        'orgs':orgs,
+        'org_filter':org_filter,
     })
 
 
@@ -170,7 +181,8 @@ def add_question(request):
 
         if form.is_valid():
             case = form.save(commit=False)
-            case.created_by = str(request.user)
+            case.created_by = request.user
+            # case.visible_to.set(request.user.legal_aid_org)
             ## Fastcase
             if len(case.related_cite) != 0:
                 case.related_cite_link = link_grabber(case.related_cite)
@@ -183,7 +195,9 @@ def add_question(request):
             case.related_words = nltk_rel_words(question_text)
             User.objects.filter(id=request.user.id).update(score=F('score') + 1)
             case.save()
-
+            print("Selected = ", case.visible_to)
+            case.visible_to.add(request.user.legal_aid_org)
+            form.save_m2m()
             if case.related_document:
                 User.objects.filter(id=request.user.id).update(score=F('score') + 4)
 
@@ -382,7 +396,7 @@ def edit_case(request, case_id):
             case_obj = form.save(commit=False)
             if request.POST.get("account"):
                 case_obj.account = Account.objects.get(id=request.POST.get("account"))
-            case_obj.created_by = str(request.user)
+            case_obj.created_by = request.user
             case_obj.save()
 
             if request.is_ajax():

@@ -3,7 +3,7 @@ from django.forms import Textarea
 from django.utils.translation import pgettext_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
-from common.models import User
+from common.models import User, LegalAidOrg
 from common.utils import CASE_TYPE, PRIORITY_CHOICE, STATUS_CHOICE, INDCHOICES, KB_TYPE, RESULT_CHOICE
 from tinymce.models import HTMLField
 from knowledge_base.models import KB_Item, Practicearea
@@ -19,14 +19,14 @@ class Case(models.Model):
             on_delete=models.CASCADE,
             blank=True, null=True, related_name="case_number")
 
-
     issue_summary = models.CharField(
         pgettext_lazy("Summary", "Summary"),
         max_length=256)
     issue_detail = HTMLField()
     issue_area = models.ForeignKey(Practicearea, on_delete=models.CASCADE)
     # issue_area = models.CharField(choices=CASE_TYPE, max_length=255, blank=True, null=True, default='GENERAL')
-    created_by = models.CharField(max_length=76)
+    # created_by = models.CharField(max_length=76)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     related_document = models.FileField(upload_to='documents/')
     related_document_name = models.CharField(
         pgettext_lazy("Upload Name", "Upload Name"),
@@ -41,7 +41,7 @@ class Case(models.Model):
     score = models.CharField(max_length=64)
     marked_as_inapprop = models.BooleanField(default=False)
     related_words = models.CharField(max_length=1000, default="")
-
+    visible_to = models.ManyToManyField(LegalAidOrg, default="", blank=True)
 
     # class Meta:
     #     ordering = ['score']

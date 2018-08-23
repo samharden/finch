@@ -10,7 +10,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'legal_aid_org' )
 
 
 class UserForm(forms.ModelForm):
@@ -31,7 +31,7 @@ class UserForm(forms.ModelForm):
             'state',
             'county',
             'website',
-
+            'legal_aid_org'
         )
 
     def clean_name(self):

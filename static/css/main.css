@@ -110,8 +110,8 @@ button {
   padding: 7px 30px;
   border-radius: 0px;
   font-weight: 600;
-  color: black;
-  background-color: #ea6464;
+  color: white;
+  background-color: #408af8;
   font-size: 13px;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
@@ -121,13 +121,16 @@ button {
 }
 .btn:hover,
 button:hover {
-  color: #fff;
+  color: #7795f8;
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
 }
 .section {
   padding: 80px 0;
 }
 .input-group-btn button {
   padding: 11px 20px;
+  color: white;
 }
 .btn-common {
   color: #FFF;
@@ -159,6 +162,8 @@ button:hover {
 }
 .btn-round {
   border-radius: .7em;
+  color: white;
+
 }
 
 

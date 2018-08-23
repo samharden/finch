@@ -21,7 +21,7 @@
             </div>
 
 
-                  {% if case_record.created_by == logged_in_user.username %}
+                  {% if case_record.created_by.username == logged_in_user.username %}
                   <div class="pull-right" style="margin-right:50px">
                   <div class="dropdown">
 
@@ -68,11 +68,9 @@
                         <label class="case_field_label" for="id_status" data-name="name">Area</label>
                         <div class="case_field" id="case_status" data-name="name">{{ case_record.issue_area }}</div>
                         <label class="case_field_label" for="id_status" data-name="name">Author:</label>
-                        {% for user in users %}
-                        {% if case_record.created_by == user.username %}
-                        <div class="case_field" id="case_status" data-name="name"><a href="/user/{{user.username}}/view">{{ case_record.created_by }}</a></div>
-                        {% endif %}
-                        {% endfor %}
+
+                        <div class="case_field" id="case_status" data-name="name"><a href="/user/{{case_record.created_by.username}}/view">{{ case_record.created_by.username }}</a></div>
+
 
 
                 </div>

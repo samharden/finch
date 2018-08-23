@@ -5,6 +5,16 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserM
 from common.utils import COUNTIES, KB_TYPE, CASE_TYPE, STATES
 from tinymce.models import HTMLField
 
+class LegalAidOrg(models.Model):
+    name = models.CharField(pgettext_lazy("Name", "Name"), max_length=400)
+    street_address = models.CharField(pgettext_lazy("Address", "Address"), max_length=1000)
+    city = models.CharField(pgettext_lazy("City", "City"), max_length=500)
+    state = models.CharField(pgettext_lazy("State", "State"), max_length=400)
+    zip_code = models.CharField(pgettext_lazy("Zip", "Zip"), max_length=400)
+    website_url = models.CharField(pgettext_lazy("Website", "Website"), max_length=1000)
+    def __str__(self):
+        return self.name
+
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=255, unique=True)
@@ -20,6 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     ppa_percent = models.CharField(max_length=4, default='0')
     secondary_practice_area = models.CharField(choices=CASE_TYPE, max_length=64, default='NA')
     spa_percent = models.CharField(max_length=4, default='0')
+    legal_aid_org = models.ForeignKey(LegalAidOrg, on_delete=models.CASCADE, blank=True, null=True)
 
     # USERNAME_FIELD = 'email'
     USERNAME_FIELD = 'username'
@@ -33,6 +44,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __unicode__(self):
         return self.email
+
+
 
 class Casetype(models.Model):
     type = models.CharField(pgettext_lazy("Area", "Area"),max_length=1000)
