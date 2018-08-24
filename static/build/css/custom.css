@@ -1060,6 +1060,11 @@ h2 {
 .accordion .panel:hover {
     background: #F2F5F7
 }
+.x_panel:hover {
+  color: #7795f8;
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+}
 .x_panel {
     position: relative;
     width: 100%;

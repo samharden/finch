@@ -52,8 +52,8 @@ class CaseForm(forms.ModelForm):
         # self.fields['issue_area'].required = False
         self.fields['related_cite'].required = False
         # self.fields['visible_to'].choices = LegalAidOrg.objects.all()
-        self.fields['visible_to'].widget = CheckboxSelectMultiple()
-        self.fields["visible_to"].queryset = LegalAidOrg.objects.all()
+        # self.fields['visible_to'].widget = CheckboxSelectMultiple()
+        # self.fields["visible_to"].queryset = LegalAidOrg.objects.all()
         # issue_detail = forms.CharField(widget=forms.Textarea)
         issue_detail = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
 
@@ -65,7 +65,7 @@ class CaseForm(forms.ModelForm):
         fields = ('title', 'issue_area', 'related_document_name',
         'rel_statute_link', 'issue_summary', 'issue_detail',
         'related_document', 'related_document_desc', 'related_cite',
-        'visible_to'
+
         )
 
     def clean_name(self):

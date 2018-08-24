@@ -25,11 +25,12 @@
   <form id="questions_filter" method="POST" action="" >{% csrf_token %}
   <!-- <div class="col-sm-12"> -->
 
-    <!-- <div class="input-group"> -->
+    <div class="input-group">
       <input type="text" class="form-control" name="name" value="{{request.POST.description}}">
-      <button style="" type="submit" id="filter_click" class="btn btn-round btn-default"><i class="fa fa-search"></i></button>
+      <span class="input-group-btn"><button style="" type="submit" id="filter_click" class="btn btn-round btn-default"><i class="fa fa-search"></i></button>
+        </span>
 
-    <!-- </div> -->
+    </div>
 
     </form>
 
