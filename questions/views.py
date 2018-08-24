@@ -192,6 +192,7 @@ def add_question(request):
             case.state = request.user.state
             case.county = request.user.county
             question_text = case.issue_detail
+
             case.related_words = nltk_rel_words(question_text)
             User.objects.filter(id=request.user.id).update(score=F('score') + 1)
             case.save()
@@ -273,7 +274,7 @@ def view_question(request, case_id):
     text_to_send = case_record.related_words+" "+total_text
     rel_q_list_final = RelatedQuestions.objects.filter(question_id=case_record).count()
     print("Count =", rel_q_list_final)
-    if rel_q_list_final>99:
+    if rel_q_list_final>6:
         print("don't need to process it")
     else:
         find_rel_questions(

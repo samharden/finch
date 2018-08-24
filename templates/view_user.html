@@ -90,9 +90,9 @@
             <div class="x_title">
           <h4>Documents:
             {% if user_record.email == logged_in_user.email %}
-            <div class="pull-right"><a href="/upload_file"><button class="btn btn-sm btn-success">Add</button></a></div></h4>
+            <div class="pull-right"><a href="/upload_file"><button class="btn btn-round"><i class="fa fa-plus"></i></button></a></div>
             {% endif %}
-
+            </h4>
         </div>
 
         <div class="panel-content" style="margin-left:1%; margin-right:1%">
@@ -168,7 +168,7 @@
 
   {% for question in question_record %}
 
-    {% if question.created_by == user_record.username %}
+    {% if question.created_by == user_record %}
     <tr class="case_row{{question.id}}" style="text-align:left;">
 
       <td><a href="{% url 'questions:view_case' question.id %}">{{question.title}}</a></td>

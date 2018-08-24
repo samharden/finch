@@ -8,7 +8,7 @@ EMAIL_ENABLED = True
 DOMAIN_ROOT = 'mg.finch-km.com'
 MAILGUN_API_KEY = "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"
 ## If you have a Fastcase API Key and want finch to look up citation links:
-FASTCASE_API = False
+FASTCASE_API = True
 FASTCASE_API_KEY = "hQ84vRByK8PaMGSSDs6v"
 ## Otherwise it uses Google Scholar.
 
