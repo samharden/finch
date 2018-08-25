@@ -5,11 +5,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ## If you want to enable email notifications, set EMAIL_ENABLED to True,
 ## and DOMAIN_ROOT to your mailgun mx domain
 EMAIL_ENABLED = True
-DOMAIN_ROOT = 'mg.finch-km.com'
-MAILGUN_API_KEY = "21aea2e8816a5714720bea94a065e953-b892f62e-45bfc044"
+DOMAIN_ROOT = ''
+MAILGUN_API_KEY = ""
 ## If you have a Fastcase API Key and want finch to look up citation links:
 FASTCASE_API = True
-FASTCASE_API_KEY = "hQ84vRByK8PaMGSSDs6v"
+FASTCASE_API_KEY = ""
 ## Otherwise it uses Google Scholar.
 
 # Quick-start development settings - unsuitable for production
@@ -20,7 +20,7 @@ SECRET_KEY = 'apple-tree-maven-host'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1','aws.finch-km.com','0.0.0.0','ec2-18-206-61-184.compute-1.amazonaws.com','localhost','finch-km.herokuapp.com', 'finch-km.com', 'www.finch-km.com','demo.finch-km.com']
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','finch-km.herokuapp.com', 'finch-km.com', 'www.finch-km.com']
 
 if DEBUG == False:
     SESSION_COOKIE_SECURE = True
@@ -93,14 +93,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'finchdb',
-    #     'USER': 'atticus',
-    #     'PASSWORD': 'fi8337269!',
-    #     'HOST': 'finch-db.clhbfnyguhjj.us-east-1.rds.amazonaws.com',
-    #     'PORT': '3306',
-    # }
 
 }
 
@@ -150,8 +142,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # MEDIA_URL = '/media/'
 
 ########
-AWS_ACCESS_KEY_ID = 'AKIAIC3BRBZYDP7HRCWQ'
-AWS_SECRET_ACCESS_KEY = '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'
+## Set up file storage with Amazon S3:
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
 AWS_STORAGE_BUCKET_NAME = 'finch-bucket'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
