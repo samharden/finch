@@ -172,6 +172,7 @@ def questions_list(request):
 
 
 @login_required
+@csrf_exempt
 def add_question(request):
     users = User.objects.filter(is_active=True).order_by('email')
     form = CaseForm()
